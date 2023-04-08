@@ -18,7 +18,6 @@ Plantilla.datosDescargadosNulos = {
     fecha: ""
 }
 
-
 /**
  * Función que descarga la info MS Plantilla al llamar a una de sus rutas
  * @param {string} ruta Ruta a descargar
@@ -45,7 +44,6 @@ Plantilla.descargarRuta = async function (ruta, callBackFn) {
         callBackFn(datosDescargados)
     }
 }
-
 
 /**
  * Función principal para mostrar los datos enviados por la ruta "home" de MS Plantilla
@@ -91,7 +89,6 @@ Plantilla.mostrarAcercaDe = function (datosDescargados) {
     `;
     Frontend.Article.actualizar("Plantilla Acerca de", mensajeAMostrar)
 }
-
 
 /**
  * Función principal para responder al evento de elegir la opción "Home"

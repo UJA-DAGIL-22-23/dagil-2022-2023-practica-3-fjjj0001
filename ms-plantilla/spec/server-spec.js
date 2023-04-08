@@ -39,6 +39,9 @@ describe('Servidor PLANTILLA:', () => {
           //console.log( "BODY ACERCA DE ", res.body ); // Para comprobar qué contiene exactamente res.body
           assert(res.body.hasOwnProperty('mensaje'));
           assert(res.body.mensaje === "Microservicio MS Plantilla: acerca de");
+          assert(res.body.autor === "Francisco José Jordán Jiménez");
+          assert(res.body.email === "fjjj0001@red.ujaen.es");
+          assert(res.body.fecha === "08/04/2023");
 
         })
         .end((error) => { error ? done.fail(error) : done() })
@@ -49,16 +52,29 @@ describe('Servidor PLANTILLA:', () => {
    * Tests para acceso a la BBDD
    */
   describe('Acceso a BBDD:', () => {
-    it('Devuelve ¿¿¿ VALOR ESPERADO ??? al consultar mediante test_db', (done) => {
+    it('Devuelve Sergio al consultar nombre mediante test_db', (done) => {
       supertest(app)
         .get('/test_db')
         .expect(200)
         .expect('Content-Type', /json/)
         .expect(function (res) {
           //console.log( res.body ); // Para comprobar qué contiene exactamente res.body
-          assert(res.body.data[0].data.hasOwnProperty('¿¿¿ PROPIEDAD ???'));
-          assert(res.body.data[0].data.nombre === "¿¿¿ VALOR ESPERADO ???");
+          assert(res.body.data[0].data.hasOwnProperty('nombre'));
+          assert(res.body.data[0].data.nombre === "Sergio");
 
+        })
+        .end((error) => { error ? done.fail(error) : done(); }
+        );
+    });
+
+    it('Devuelve un vector de tamaño 10 al consultar mediante getTodos', (done) => {
+      supertest(app)
+        .get('/getTodos')
+        .expect(200)
+        .expect('Content-Type', /json/)
+        .expect(function (res) {
+          //console.log( res.body ); // Para comprobar qué contiene exactamente res.body
+          assert(res.body.data.length === 34);
         })
         .end((error) => { error ? done.fail(error) : done(); }
         );

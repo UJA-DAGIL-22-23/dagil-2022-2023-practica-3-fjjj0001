@@ -14,10 +14,10 @@ const faunadb = require('faunadb'),
     q = faunadb.query;
 
 const client = new faunadb.Client({
-    secret: '¿¿¿ CLAVE SECRETA EN FAUNA PARA ESTA BBDD???',
+    secret: 'fnAFBBEYfHAAzGtp0T2MZJMP3nGu_j37PzVIj7HB',
 });
 
-const COLLECTION = "¿¿¿ COLECCION ???"
+const COLLECTION = "Jugadores"
 
 // CALLBACKS DEL MODELO
 
@@ -61,6 +61,28 @@ const CB_MODEL_SELECTS = {
         }
     },
 
+    /**
+     * Método para obtener todas los jugadores de la BBDD.
+     * @param {*} req Objeto con los parámetros que se han pasado en la llamada a esta URL 
+     * @param {*} res Objeto Response con las respuesta que se va a dar a la petición recibida
+     */
+    getTodos: async (req, res) => {
+        try {
+            let personas = await client.query(
+                q.Map(
+                    q.Paginate(q.Documents(q.Collection(COLLECTION))),
+                    q.Lambda("X", q.Get(q.Var("X")))
+                )
+            )
+            console.log( personas ) // Para comprobar qué se ha devuelto en personas
+            CORS(res)
+                .status(200)
+                .json(personas)
+        } catch (error) {
+            CORS(res).status(500).json({ error: error.description })
+        }
+    },
+
 }
 
 
@@ -93,9 +115,9 @@ const CB_OTHERS = {
         try {
             CORS(res).status(200).json({
                 mensaje: "Microservicio MS Plantilla: acerca de",
-                autor: "¿¿¿ AUTOR ???",
-                email: "¿¿¿ EMAIL ???",
-                fecha: "¿¿¿ FECHA ???"
+                autor: "Francisco José Jordán Jiménez",
+                email: "fjjj0001@red.ujaen.es",
+                fecha: "08/04/2023"
             });
         } catch (error) {
             CORS(res).status(500).json({ error: error.description })

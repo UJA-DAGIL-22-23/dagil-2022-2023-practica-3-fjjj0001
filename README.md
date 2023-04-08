@@ -1,4 +1,223 @@
 [![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-c66648af7eb3fe8bc4f294546bfd86ef473780cde1dea487d3c4ff354943c9ae.svg)](https://classroom.github.com/online_ide?assignment_repo_id=10405492&assignment_repo_type=AssignmentRepo)
+
+# Datos del alumno
+* Nombre: Francisco José Jordán Jiménez
+* Dirección de correo electrónico: fjjj0001@red.ujaen.es
+* URL del tablero de Trello: https://trello.com/b/oNt9UN0i/pr%C3%A1ctica-3-da
+
+## Captura inicial del tablero de Trello
+![image](https://user-images.githubusercontent.com/114186139/230715179-279ed002-b5ea-42b5-8b90-ae25be19f834.png)
+
+
+## Capturas de Fauna
+* Home de Fauna
+![image](https://user-images.githubusercontent.com/114186139/230715002-1d235ec8-3801-4bab-83ca-a4c17a728b0a.png)
+
+* Base de datos
+![image](https://user-images.githubusercontent.com/114186139/230715016-c982768e-3181-438f-81a7-f76671cfef1e.png)
+
+* Colección
+![image](https://user-images.githubusercontent.com/114186139/230715032-4fb3c9bb-9c9b-4498-832c-f8d5ec4dd6f4.png)
+
+## Copia de los documentos
+```javascript
+{
+  nombre: "Sergio",
+  apellidos: "Lozano Martínez",
+  apodo: "El búfalo",
+  fecha_nacimiento: {
+    dia: "9",
+    mes: "11",
+    año: "1988"
+  },
+  dorsal: "9",
+  posicion: "Ala",
+  equipos_jugados: [
+    "EFA Arganda",
+    "UD Las Rozas Boadilla",
+    "Reale Cartagena",
+    "Caja Segovia",
+    "Barça"
+  ]
+}
+
+{
+  nombre: "Carlos Vagner",
+  apellidos: "Gularte Filho",
+  apodo: "Ferrao",
+  fecha_nacimiento: {
+    dia: "29",
+    mes: "10",
+    año: "1990"
+  },
+  dorsal: "11",
+  posicion: "Pívot",
+  equipos_jugados: [
+    "Palmitos",
+    "Joinville",
+    "Atlântico",
+    "Cortiana UCS",
+    "Norte Catarinense",
+    "MFK Tyunen",
+    "Barça"
+  ]
+}
+
+{
+  nombre: "Javier",
+  apellidos: "García Moreno",
+  apodo: "Chino",
+  fecha_nacimiento: {
+    dia: "13",
+    mes: "11",
+    año: "1991"
+  },
+  dorsal: "20",
+  posicion: "Ala",
+  equipos_jugados: [
+    "Albacete FS",
+    "Puertollano FS",
+    "Montesinos Jumilla",
+    "Jaén Paraíso Interior",
+    "Burela FS",
+    "Jaén Paraíso Interior",
+    "C.A Osasuna Magna",
+    "Viña Albali Valdepeñas",
+    "Albacete FS",
+    "Jaén FS"
+  ]
+}
+
+{
+  nombre: "Miguel",
+  apellidos: "Moya Hoyo",
+  apodo: "Míchel",
+  fecha_nacimiento: {
+    dia: "24",
+    mes: "4",
+    año: "1993"
+  },
+  dorsal: "21",
+  posicion: "Ala",
+  equipos_jugados: [
+    "El Pozo Ciudad de Murcia",
+    "Peñíscola RehabMedic",
+    "Jaén FS"
+  ]
+}
+
+{
+  nombre: "Bruno",
+  apellidos: "Nogueira Aguiar",
+  apodo: "Taffy",
+  fecha_nacimiento: {
+    dia: "30",
+    mes: "3",
+    año: "1990"
+  },
+  dorsal: "17",
+  posicion: "Pívot",
+  equipos_jugados: [
+    "Palma Futsal",
+    "Movistar Inter",
+    "Palma Futsal",
+    "Tyumen",
+    "ElPozo Murcia Costa Cálida"
+  ]
+}
+
+{
+  nombre: "Leonardo",
+  apellidos: "Santana Da Silva",
+  apodo: "Leo Santana",
+  fecha_nacimiento: {
+    dia: "27",
+    mes: "3",
+    año: "1988"
+  },
+  dorsal: "5",
+  posicion: "Cierre",
+  equipos_jugados: [
+    "Kairat Almaty",
+    "Sibirak",
+    "FC Barcelona Lassa",
+    "ElPozo Murcia Costa Cálida"
+  ]
+}
+
+{
+  nombre: "André",
+  apellidos: "Pereira Coelho",
+  apodo: "Deko",
+  fecha_nacimiento: {
+    dia: "3",
+    mes: "12",
+    año: "1992"
+  },
+  dorsal: "92",
+  posicion: "Portero",
+  equipos_jugados: ["Assoeva", "Copagril", "Cascavel Futsal", "Inter FS"]
+}
+
+{
+  nombre: "Sergio",
+  apellidos: "Sierra de los Santos",
+  apodo: "Sepe",
+  fecha_nacimiento: {
+    dia: "22",
+    mes: "11",
+    año: "1990"
+  },
+  dorsal: "14",
+  posicion: "Cierre",
+  equipos_jugados: [
+    "FC Barcelona B Alusport",
+    "OID Talavera",
+    "Catgas Energía",
+    "Aspil-Vidal Ribera Navarra",
+    "Industrias Santa Coloma",
+    "Inter FS"
+  ]
+}
+
+{
+  nombre: "Carlos",
+  apellidos: "Castillejo Artero",
+  apodo: "Charly",
+  fecha_nacimiento: {
+    dia: "20",
+    mes: "4",
+    año: "1997"
+  },
+  dorsal: "9",
+  posicion: "Ala",
+  equipos_jugados: [
+      "Real Betis Futsal B", 
+      "Real Betis Futsal"]
+}
+
+{
+  nombre: "Rafael",
+  apellidos: "Katutoshi Henmi",
+  apodo: "Henmi",
+  fecha_nacimiento: {
+    dia: "30",
+    mes: "7",
+    año: "1992"
+  },
+  dorsal: "15",
+  posicion: "Ala",
+  equipos_jugados: [
+    "Nagoya Oceans",
+    "Al Wasl",
+    "Nagoya Oceans",
+    "SL Benfica",
+    "Real Betis Futsal"
+  ]
+}
+```
+
+
 # *Plantilla Práctica Microservicios*: descripción de la aplicación
 
 Este código que se presenta aquí corresponde a la plantilla para realizar un desarrollo basado en microservicios para las prácticas de Desarrollo Ágil, para el curso 2022-2023.

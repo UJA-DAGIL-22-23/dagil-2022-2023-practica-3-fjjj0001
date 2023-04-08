@@ -18,6 +18,17 @@ Plantilla.datosDescargadosNulos = {
     fecha: ""
 }
 
+// Plantilla de jugadores vacía
+Plantilla.datosJugadoresNulos = {
+    nombre: "",
+    apellidos: "",
+    apodo: "",
+    fecha_nacimiento: "",
+    dorsal: "",
+    posicion: "",
+    equipos_jugados: ""
+}
+
 /**
  * Función que descarga la info MS Plantilla al llamar a una de sus rutas
  * @param {string} ruta Ruta a descargar
@@ -90,6 +101,36 @@ Plantilla.mostrarAcercaDe = function (datosDescargados) {
     Frontend.Article.actualizar("Plantilla Acerca de", mensajeAMostrar)
 }
 
+
+/**
+ * Función para listar el nombre de todos los jugadores de la base de datos
+ * @param {jugadores} jugadores Vector con todos los jugadores de la base de datos
+ */
+Plantilla.listadoDeNombres = function (jugadores) {
+    // Si no se ha proporcionado valor para datosDescargados
+    jugadores = jugadores || this.datosJugadoresNulos
+
+    // Si datos descargados NO es un objeto 
+    if (typeof jugadores !== "object") jugadores = this.datosJugadoresNulos
+
+    //console.log(jugadores)
+    let mensajeAMostrar = `<table width="100%" class="listado-personas">
+    <thead>
+        <th width="20%">Nombre de los jugadores</th>
+    </thead>
+    <tbody>`;
+
+    for (let i = 0; i < jugadores.data.length; ++i){
+        mensajeAMostrar += `
+            <tr>
+                <td>${jugadores.data[i].data.nombre}</td>
+            </tr>`;
+    }
+    
+    mensajeAMostrar += `</tbody></table>`;
+    Frontend.Article.actualizar("Listado de nombre de los jugadores", mensajeAMostrar)
+}
+
 /**
  * Función principal para responder al evento de elegir la opción "Home"
  */
@@ -102,6 +143,13 @@ Plantilla.procesarHome = function () {
  */
 Plantilla.procesarAcercaDe = function () {
     this.descargarRuta("/plantilla/acercade", this.mostrarAcercaDe);
+}
+
+/**
+ * Función principal para responder al evento de elegir la opción "Listado de nombres"
+ */
+Plantilla.procesarListadoDeNombres = function () {
+    this.descargarRuta("/plantilla/get-todos", this.listadoDeNombres);
 }
 
 

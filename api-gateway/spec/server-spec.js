@@ -39,6 +39,20 @@ describe('API Gateway: rutas estáticas', () => {
         })
         .end((error) => { error ? done.fail(error) : done() })
     });
+    it('Devuelve MS Plantilla Acerca De', (done) => {
+      supertest(app)
+        .get('/plantilla/get-todos')
+        .expect(200)
+        .expect('Content-Type', /json/)
+        .expect(function (res) {
+          //console.log( "BODY ACERCA DE ", res.body ); // Para comprobar qué contiene exactamente res.body
+          assert(res.body.data.length === 10);
+          assert(res.body.data[0].data.hasOwnProperty('nombre'));
+          assert(res.body.data[0].data.nombre === "Sergio");
+
+        })
+        .end((error) => { error ? done.fail(error) : done() })
+    });
   })
 });
 

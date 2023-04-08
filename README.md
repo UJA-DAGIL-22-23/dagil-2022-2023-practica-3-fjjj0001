@@ -5,11 +5,27 @@
 * Dirección de correo electrónico: fjjj0001@red.ujaen.es
 * URL del tablero de Trello: https://trello.com/b/oNt9UN0i/pr%C3%A1ctica-3-da
 
+# INCREMENTO 1
 ## Captura inicial del tablero de Trello
 ![image](https://user-images.githubusercontent.com/114186139/230715179-279ed002-b5ea-42b5-8b90-ae25be19f834.png)
 
+## Captura final del tablero
+![image](https://user-images.githubusercontent.com/114186139/230744907-cee87958-dfb7-43b5-9dcf-68893a3b2b3b.png)
 
-## Capturas de Fauna
+## Captura de la primera funcionalidad
+### 1. Ver la información del autor/autora de la aplicación al pulsar en el botón “Acerca de”
+![image](https://user-images.githubusercontent.com/114186139/230744811-120c207f-2302-4be0-9ad7-e21804bc3a87.png)
+
+## Captura de la segunda funcionalidad
+### 2. Ver un listado solo con los nombres de todos los jugadores/equipos.
+![image](https://user-images.githubusercontent.com/114186139/230744861-f5431645-9529-4ae5-9109-0bfaf3607386.png)
+
+## Captura de la tercera funcionalidad
+### 3. Ver un listado solo con los nombres de todos los jugadores/equipos ordenados alfabéticamente.
+![image](https://user-images.githubusercontent.com/114186139/230744873-16a6abf0-4f4b-4911-9c28-77f7ade0d3cb.png)
+
+
+# Capturas de Fauna
 * Home de Fauna
 ![image](https://user-images.githubusercontent.com/114186139/230715002-1d235ec8-3801-4bab-83ca-a4c17a728b0a.png)
 

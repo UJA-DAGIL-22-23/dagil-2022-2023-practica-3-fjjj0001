@@ -113,21 +113,100 @@ Plantilla.listadoDeNombres = function (jugadores) {
     // Si datos descargados NO es un objeto 
     if (typeof jugadores !== "object") jugadores = this.datosJugadoresNulos
 
-    //console.log(jugadores)
+
+    // Si datos descargados NO contiene los campos
+    if (Array.isArray(jugadores.data)) {
+        for (let i = 0; i < jugadores.data.length && Array.isArray(jugadores.data); ++i) {
+            if (typeof jugadores.data[i].data.nombre === "undefined" ||
+                typeof jugadores.data[i].data.apellidos === "undefined" ||
+                typeof jugadores.data[i].data.apodo === "undefined" ||
+                typeof jugadores.data[i].data.fecha_nacimiento === "undefined" ||
+                typeof jugadores.data[i].data.dorsal === "undefined" ||
+                typeof jugadores.data[i].data.posicion === "undefined" ||
+                typeof jugadores.data[i].data.equipos_jugados === "undefined"
+            ) jugadores = this.datosJugadoresNulos
+        }
+    }
+
+    //console.log(jugadores) Para mostrar el contenido de jugadores
+
+    // Mensaje a mostrar 
     let mensajeAMostrar = `<table width="100%" class="listado-personas">
     <thead>
         <th width="20%">Nombre de los jugadores</th>
     </thead>
     <tbody>`;
 
-    for (let i = 0; i < jugadores.data.length; ++i){
-        mensajeAMostrar += `
+    // Si jugadores.data es un array, es decir, jugadores es distinto de datosJugadoresNulos, se muestra el nombre de todos
+    if (Array.isArray(jugadores.data)) {
+        for (let i = 0; i < jugadores.data.length; ++i) {
+            mensajeAMostrar += `
             <tr>
                 <td>${jugadores.data[i].data.nombre}</td>
             </tr>`;
+        }
+    }
+
+
+    mensajeAMostrar += `</tbody></table>`;
+    Frontend.Article.actualizar("Listado de nombre de los jugadores", mensajeAMostrar)
+    return mensajeAMostrar;
+}
+
+/**
+ * Función para listar el nombre en orden alfabético de todos los jugadores de la base de datos
+ * @param {jugadores} jugadores Vector con todos los jugadores de la base de datos
+ */
+Plantilla.listadoDeNombresOrden = function (jugadores) {
+    // Si no se ha proporcionado valor para datosDescargados
+    jugadores = jugadores || this.datosJugadoresNulos
+
+    // Si datos descargados NO es un objeto 
+    if (typeof jugadores !== "object") jugadores = this.datosJugadoresNulos
+
+    // Si datos descargados NO contiene los campos
+    if (Array.isArray(jugadores.data)) {
+        for (let i = 0; i < jugadores.data.length && Array.isArray(jugadores.data); ++i) {
+            if (typeof jugadores.data[i].data.nombre === "undefined" ||
+                typeof jugadores.data[i].data.apellidos === "undefined" ||
+                typeof jugadores.data[i].data.apodo === "undefined" ||
+                typeof jugadores.data[i].data.fecha_nacimiento === "undefined" ||
+                typeof jugadores.data[i].data.dorsal === "undefined" ||
+                typeof jugadores.data[i].data.posicion === "undefined" ||
+                typeof jugadores.data[i].data.equipos_jugados === "undefined"
+            ) jugadores = this.datosJugadoresNulos
+        }
+    }
+
+    
+    let listanombres = [];
+    if(Array.isArray(jugadores.data)){
+        
+        for (let i = 0; i < jugadores.data.length; ++i) {
+            listanombres.push(jugadores.data[i].data.nombre);
+        }
+    
+        listanombres.sort();
     }
     
+
+    //console.log(listanombres);
+
+    let mensajeAMostrar = `<table width="100%" class="listado-personas">
+    <thead>
+        <th width="20%">Nombre de los jugadores</th>
+    </thead>
+    <tbody>`;
+
+    for (let i = 0; i < listanombres.length; ++i) {
+        mensajeAMostrar += `
+            <tr>
+                <td>${listanombres[i]}</td>
+            </tr>`;
+    }
+
     mensajeAMostrar += `</tbody></table>`;
+    //console.log(mensajeAMostrar);
     Frontend.Article.actualizar("Listado de nombre de los jugadores", mensajeAMostrar)
 }
 
@@ -146,11 +225,17 @@ Plantilla.procesarAcercaDe = function () {
 }
 
 /**
- * Función principal para responder al evento de elegir la opción "Listado de nombres"
+ * Función principal para responder al evento de elegir la opción "Listar jugadores solo nombre"
  */
 Plantilla.procesarListadoDeNombres = function () {
     this.descargarRuta("/plantilla/get-todos", this.listadoDeNombres);
 }
 
+/**
+ * Función principal para responder al evento de elegir la opción "Listar nombres ordenado"
+ */
+Plantilla.procesarListadoDeNombresOrden = function () {
+    this.descargarRuta("/plantilla/get-todos", this.listadoDeNombresOrden);
+}
 
 

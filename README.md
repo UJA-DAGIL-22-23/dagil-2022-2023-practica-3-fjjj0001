@@ -24,6 +24,10 @@
 ### 3. Ver un listado solo con los nombres de todos los jugadores/equipos ordenados alfabéticamente.
 ![image](https://user-images.githubusercontent.com/114186139/230744873-16a6abf0-4f4b-4911-9c28-77f7ade0d3cb.png)
 
+# INCREMENTO 2
+## Captura incial del tablero de Trello
+![image](https://user-images.githubusercontent.com/114186139/230765998-5e7aaebd-f693-4b4f-aa80-eda57d13d807.png)
+
 
 # Capturas de Fauna
 * Home de Fauna

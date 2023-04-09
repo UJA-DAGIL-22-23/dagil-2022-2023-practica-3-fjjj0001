@@ -178,17 +178,16 @@ Plantilla.listadoDeNombresOrden = function (jugadores) {
         }
     }
 
-    
+
     let listanombres = [];
-    if(Array.isArray(jugadores.data)){
-        
+    if (Array.isArray(jugadores.data)) {
+
         for (let i = 0; i < jugadores.data.length; ++i) {
             listanombres.push(jugadores.data[i].data.nombre);
         }
-    
+
         listanombres.sort();
     }
-    
 
     //console.log(listanombres);
 
@@ -208,6 +207,135 @@ Plantilla.listadoDeNombresOrden = function (jugadores) {
     mensajeAMostrar += `</tbody></table>`;
     //console.log(mensajeAMostrar);
     Frontend.Article.actualizar("Listado de nombre de los jugadores", mensajeAMostrar)
+}
+
+/**
+ * Función para listar todos los datos de los jugadores que haya en la base de datos
+ * @param {jugadores} Jugadores Vector con todos los jugadores de la BBDD
+ */
+Plantilla.listadoJugadores = function (jugadores) {
+    // Si no se ha proporcionado valor para datosDescargados
+    jugadores = jugadores || this.datosJugadoresNulos
+
+    // Si datos descargados NO es un objeto 
+    if (typeof jugadores !== "object") jugadores = this.datosJugadoresNulos
+
+
+    // Si datos descargados NO contiene los campos
+    if (Array.isArray(jugadores.data)) {
+        for (let i = 0; i < jugadores.data.length && Array.isArray(jugadores.data); ++i) {
+            if (typeof jugadores.data[i].data.nombre === "undefined" ||
+                typeof jugadores.data[i].data.apellidos === "undefined" ||
+                typeof jugadores.data[i].data.apodo === "undefined" ||
+                typeof jugadores.data[i].data.fecha_nacimiento === "undefined" ||
+                typeof jugadores.data[i].data.dorsal === "undefined" ||
+                typeof jugadores.data[i].data.posicion === "undefined" ||
+                typeof jugadores.data[i].data.equipos_jugados === "undefined"
+            ) jugadores = this.datosJugadoresNulos
+        }
+    }
+
+    //console.log(jugadores) Para mostrar el contenido de jugadores
+
+    // Mensaje a mostrar 
+    let mensajeAMostrar = `<table width="100%" class="listado-personas">
+    <thead>
+        <th width="20%">Nombre</th>
+        <th width="20%">Apellidos</th>
+        <th width="20%">Apodo</th>
+        <th width="20%">Fecha de nacimiento</th>
+        <th width="20%">Dorsal</th>
+        <th width="20%">Posición</th>
+        <th width="20%">Trayectoria</th>
+    </thead>
+    <tbody>`;
+
+    // Si jugadores.data es un array, es decir, jugadores es distinto de datosJugadoresNulos, se muestra el nombre de todos
+    if (Array.isArray(jugadores.data)) {
+        for (let i = 0; i < jugadores.data.length; ++i) {
+            mensajeAMostrar += `
+            <tr>
+                <td>${jugadores.data[i].data.nombre}</td>
+                <td>${jugadores.data[i].data.apellidos}</td>
+                <td>${jugadores.data[i].data.apodo}</td>
+                <td>${jugadores.data[i].data.fecha_nacimiento.dia}/${jugadores.data[i].data.fecha_nacimiento.mes}/${jugadores.data[i].data.fecha_nacimiento.año}</td>
+                <td>${jugadores.data[i].data.dorsal}</td>
+                <td>${jugadores.data[i].data.posicion}</td>
+                <td>${jugadores.data[i].data.equipos_jugados}</td>              
+            </tr>`;
+
+        }
+    }
+
+
+    mensajeAMostrar += `</tbody></table>`;
+    Frontend.Article.actualizar("Listado de los jugadores", mensajeAMostrar)
+    return mensajeAMostrar;
+}
+
+/**
+ * Función para listar los datos de un jugador de la base de datos
+ * @param {jugadores} Jugadores Vector con todos los jugadores de la base de datos
+ */
+Plantilla.listadoAleatorio = function (jugadores) {
+    // Si no se ha proporcionado valor para datosDescargados
+    jugadores = jugadores || this.datosJugadoresNulos
+
+    // Si datos descargados NO es un objeto 
+    if (typeof jugadores !== "object") jugadores = this.datosJugadoresNulos
+
+
+    // Si datos descargados NO contiene los campos
+    if (Array.isArray(jugadores.data)) {
+        for (let i = 0; i < jugadores.data.length && Array.isArray(jugadores.data); ++i) {
+            if (typeof jugadores.data[i].data.nombre === "undefined" ||
+                typeof jugadores.data[i].data.apellidos === "undefined" ||
+                typeof jugadores.data[i].data.apodo === "undefined" ||
+                typeof jugadores.data[i].data.fecha_nacimiento === "undefined" ||
+                typeof jugadores.data[i].data.dorsal === "undefined" ||
+                typeof jugadores.data[i].data.posicion === "undefined" ||
+                typeof jugadores.data[i].data.equipos_jugados === "undefined"
+            ) jugadores = this.datosJugadoresNulos
+        }
+    }
+
+    //console.log(jugadores) Para mostrar el contenido de jugadores
+
+    // Vamos a mostrar los datos de un jugador aleatorio de entre todos los que haya en la base de datos
+    var i = 0
+    if (Array.isArray(jugadores.data)) {
+        i = Math.floor(Math.random() * jugadores.data.length-1) + 1;
+    }
+
+    // Mensaje a mostrar 
+    let mensajeAMostrar = `<table width="100%" class="listado-personas">
+    <thead>
+        <th width="20%">Nombre</th>
+        <th width="20%">Apellidos</th>
+        <th width="20%">Apodo</th>
+        <th width="20%">Fecha de nacimiento</th>
+        <th width="20%">Dorsal</th>
+        <th width="20%">Posición</th>
+        <th width="20%">Trayectoria</th>
+    </thead>
+    <tbody>`;
+
+    // Si jugadores no se ha pasado correctamente, no podría leer los datos, por lo tanto se dejaría la tabla en blanco
+    if(Array.isArray(jugadores.data)){
+    mensajeAMostrar += `
+            <tr>
+                <td>${jugadores.data[i].data.nombre}</td>
+                <td>${jugadores.data[i].data.apellidos}</td>
+                <td>${jugadores.data[i].data.apodo}</td>
+                <td>${jugadores.data[i].data.fecha_nacimiento.dia}/${jugadores.data[i].data.fecha_nacimiento.mes}/${jugadores.data[i].data.fecha_nacimiento.año}</td>
+                <td>${jugadores.data[i].data.dorsal}</td>
+                <td>${jugadores.data[i].data.posicion}</td>
+                <td>${jugadores.data[i].data.equipos_jugados}</td>              
+            </tr>`;
+    }
+    mensajeAMostrar += `</tbody></table>`;
+    Frontend.Article.actualizar("Datos de un jugador", mensajeAMostrar)
+    return mensajeAMostrar;
 }
 
 /**
@@ -238,4 +366,17 @@ Plantilla.procesarListadoDeNombresOrden = function () {
     this.descargarRuta("/plantilla/get-todos", this.listadoDeNombresOrden);
 }
 
+/**
+ * Función principal para responder al evento de elegir la opción "Listar jugadores"
+ */
+Plantilla.procesarListadoJugadores = function () {
+    this.descargarRuta("/plantilla/get-todos", this.listadoJugadores)
+}
+
+/**
+ * Función principal para responder al evento de elegir la opción "Datos de un jugador"
+ */
+Plantilla.procesarListadoAleatorio = function() {
+    this.descargarRuta("/plantilla/get-todos", this.listadoAleatorio)
+}
 

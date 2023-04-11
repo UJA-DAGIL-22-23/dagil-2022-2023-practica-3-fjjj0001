@@ -28,6 +28,22 @@
 ## Captura incial del tablero de Trello
 ![image](https://user-images.githubusercontent.com/114186139/230765998-5e7aaebd-f693-4b4f-aa80-eda57d13d807.png)
 
+### 4. Ver un listado con todos los datos de todos los jugadores/equipos
+![image](https://user-images.githubusercontent.com/114186139/231155211-492ee129-f6e6-45d1-a479-58a34c752a09.png)
+
+### 6. Ver todos los datos de un determinado jugador/equipo
+![image](https://user-images.githubusercontent.com/114186139/231155448-f8bd08a4-fbb9-432d-8512-f9a9b0736900.png)
+
+### 12. Modificar el nombre de un jugador/equipo
+![image](https://user-images.githubusercontent.com/114186139/231155734-e0bf68a9-b55d-489e-bc64-408bdfd0a5c4.png)
+![image](https://user-images.githubusercontent.com/114186139/231155829-01ef8c6b-3acc-40b1-906e-ab9b81e2bafc.png)
+ 
+ #### Inciso
+ A pesar de intentarlo varias veces, los expects para mostrar un solo jugador y modificar su nombre me daban constantemente problemas por lo que no he podido implementarlos.
+ 
+ ## Captura final del tablero
+ ![image](https://user-images.githubusercontent.com/114186139/231156150-f8df4108-c2e2-47d3-ae4f-75cd9bdc1de6.png)
+
 
 # Capturas de Fauna
 * Home de Fauna

@@ -4,6 +4,13 @@
  * @author Víctor M. Rivas Santos <vrivas@ujaen.es>
  * @date 03-Feb-2023
  */
+ 
+#form-jugador-dia,
+#form-jugador-mes,
+#form-jugador-anio {
+  display: inline;
+}
+
 
  table.listado-personas {
     width: 100%;

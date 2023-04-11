@@ -10,6 +10,8 @@
 /// Creo el espacio de nombres
 let Plantilla = {};
 
+let jugadores = null;
+
 // Plantilla de datosDescargados vacíos
 Plantilla.datosDescargadosNulos = {
     mensaje: "Datos Descargados No válidos",
@@ -20,6 +22,7 @@ Plantilla.datosDescargadosNulos = {
 
 // Plantilla de jugadores vacía
 Plantilla.datosJugadoresNulos = {
+    id: "",
     nombre: "",
     apellidos: "",
     apodo: "",
@@ -28,6 +31,235 @@ Plantilla.datosJugadoresNulos = {
     posicion: "",
     equipos_jugados: ""
 }
+
+// Tags que voy a usar para sustituir los campos
+Plantilla.plantillaTags = {
+    "ID": "### ID ###",
+    "NOMBRE": "### NOMBRE ###",
+    "APELLIDOS": "### APELLIDOS ###",
+    "APODO": "### APODO ###",
+    "DIA": "### DIA ###",
+    "MES": "### MES ###",
+    "ANIO": "### AÑO ###",
+    "DORSAL": "### DORSAL ###",
+    "POSICION": "### POSICION ###",
+    "EQUIPOS_JUGADOS": "### EQUIPOS_JUGADOS ###"
+}
+
+/// Plantilla para poner los datos de un jugador en un tabla dentro de un formulario
+Plantilla.plantillaFormularioJugador = {}
+
+Plantilla.siguiente = function(i){
+    Plantilla.mostrar(i + 1)
+}
+
+// Cabecera del formulario para mostrar los datos de un jugador
+Plantilla.plantillaFormularioJugador.formulario = `
+<form method='post' action=''>
+    <table width="100%" class="listado-personas">
+        <thead>
+            <th width="10%">Id</th><th width="20%">Nombre</th><th width="20%">Apellidos</th>
+            <th width="20%">Apodo</th><th width="20%">Fecha de nacimiento</th><th width="20%">Dorsal</th>
+            <th width="20%">Posición</th><th width="20%">Trayectoria</th>
+        </thead>
+        <tbody>
+            <tr title="${Plantilla.plantillaTags.ID}">
+                <td><input type="text" class="form-persona-elemento" disabled id="form-jugador-id"
+                        value="${Plantilla.plantillaTags.ID}" 
+                        name="id_jugador"/></td>
+                <td><input type="text" class="form-persona-elemento editable" disabled
+                        id="form-jugador-nombre" required value="${Plantilla.plantillaTags.NOMBRE}" 
+                        name="nombre_jugador"/></td>
+                <td><input type="text" class="form-persona-elemento editable" disabled
+                        id="form-jugador-apellidos" required value="${Plantilla.plantillaTags.APELLIDOS}" 
+                        name="apellidos_jugador"/></td>
+                <td><input type="text" class="form-persona-elemento editable" disabled
+                        id="form-jugador-apodo" required value="${Plantilla.plantillaTags.APODO}" 
+                        name="apodo_jugador"/></td>
+                <td><input type="number" class="form-persona-elemento editable" disabled
+                        id="form-jugador-dia" required value="${Plantilla.plantillaTags.DIA}"
+                        name="dia_jugador"/>-
+                    <input type="number" class="form-persona-elemento editable" disabled
+                        id="form-jugador-mes" required value="${Plantilla.plantillaTags.MES}"
+                        name="mes_jugador"/>-
+                    <input type="number" class="form-persona-elemento editable" disabled
+                        id="form-jugador-anio" required value="${Plantilla.plantillaTags.ANIO}"
+                        name="año_jugador"/></td>
+                <td><input type="number" class="form-persona-elemento editable" disabled
+                        id="form-jugador-dorsal" required value="${Plantilla.plantillaTags.DORSAL}" 
+                        name="dorsal_jugador"/></td>
+                <td><input type="text" class="form-persona-elemento editable" disabled
+                        id="form-jugador-posicion" required value="${Plantilla.plantillaTags.POSICION}" 
+                        name="posicion_jugador"/></td>
+                <td><input type="text" class="form-persona-elemento editable" disabled
+                        id="form-jugador-trayectoria" required value="${Plantilla.plantillaTags.EQUIPOS_JUGADOS}"
+                        name="equipos-jugados-jugador"/></td>
+                <td>
+                    <div><a href="javascript:Plantilla.editar()" id="editar-btn" onclick="Plantilla.mostrarBotonesEdicion()" class="opcion-secundaria mostrar">Editar</a></div>
+                    <div><a href="javascript:Plantilla.guardar()" id="guardar-btn" class="opcion-terciaria editar ocultar">Guardar</a></div>
+                    <div><a href="javascript:Plantilla.mostrar('${Plantilla.plantillaTags.ID}')" id="cancelar-btn" class="opcion-terciaria editar ocultar">Cancelar</a></div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>
+`;
+
+/**
+ * Función para ocultar el botón de editar y mostrar los botones de guardar y cancelar
+ */
+Plantilla.mostrarBotonesEdicion = function () {
+    // Cambiar la clase de los botones de ocultar a mostrar
+    document.getElementById("guardar-btn").classList.remove("ocultar");
+    document.getElementById("cancelar-btn").classList.remove("ocultar");
+    document.getElementById("editar-btn").classList.remove("mostrar");
+    document.getElementById("guardar-btn").classList.add("mostrar");
+    document.getElementById("cancelar-btn").classList.add("mostrar");
+    document.getElementById("editar-btn").classList.add("ocultar");
+
+}
+
+/**
+ * Función para habilitar los campos que serán editables de un jugador y cambia la visibilidad de los botones
+ */
+Plantilla.editar = function () {
+    document.getElementById("form-jugador-nombre").disabled = false;
+    //document.getElementById("form-jugador-apellidos").disabled = false;
+    //document.getElementById("form-jugador-apodo").disabled = false;
+    //document.getElementById("form-jugador-dia").disabled = false;
+    //document.getElementById("form-jugador-mes").disabled = false;
+    //document.getElementById("form-jugador-anio").disabled = false;
+}
+
+/**
+ * Función para modificar los campos del formulario
+ * @param {*} plantilla Plantilla del formulario
+ * @param {*} jugador Datos del jugador que vamos a mostrar
+ * @returns 
+ */
+Plantilla.sustituyeTags = function (plantilla, jugador) {
+    // Si no se ha proporcionado valor para jugador
+    jugador = jugador || this.datosJugadoresNulos
+
+    // Si jugador NO es un objeto 
+    if (typeof jugador !== "object") jugador = this.datosJugadoresNulos
+
+    return plantilla
+        .replace(new RegExp(Plantilla.plantillaTags.ID, 'g'), jugador.ref['@ref'].id)
+        .replace(new RegExp(Plantilla.plantillaTags.NOMBRE, 'g'), jugador.data.nombre)
+        .replace(new RegExp(Plantilla.plantillaTags.APELLIDOS, 'g'), jugador.data.apellidos)
+        .replace(new RegExp(Plantilla.plantillaTags.APODO, 'g'), jugador.data.apodo)
+        .replace(new RegExp(Plantilla.plantillaTags.DIA, 'g'), jugador.data.fecha_nacimiento.dia)
+        .replace(new RegExp(Plantilla.plantillaTags.MES, 'g'), jugador.data.fecha_nacimiento.mes)
+        .replace(new RegExp(Plantilla.plantillaTags.ANIO, 'g'), jugador.data.fecha_nacimiento.año)
+        .replace(new RegExp(Plantilla.plantillaTags.DORSAL, 'g'), jugador.data.dorsal)
+        .replace(new RegExp(Plantilla.plantillaTags.POSICION, 'g'), jugador.data.posicion)
+        .replace(new RegExp(Plantilla.plantillaTags.EQUIPOS_JUGADOS, 'g'), jugador.data.equipos_jugados)
+}
+
+/**
+ * Función para actualizar en el formulario los datos de un jugador
+ * @param {*} jugador Datos del jugador que vamos a mostrar en la plantilla del formulario
+ * @returns 
+ */
+Plantilla.plantillaFormularioJugador.actualiza = function (jugador) {
+    // Si no se ha proporcionado valor para jugador
+    jugador = jugador || this.datosJugadoresNulos
+
+    // Si jugador NO es un objeto 
+    if (typeof jugador !== "object") jugador = this.datosJugadoresNulos
+
+    return Plantilla.sustituyeTags(this.formulario, jugador)
+}
+
+/**
+ * Función para actualizar el frontend con los datos del jugador
+ * @param {*} jugador Datos del jugador
+ */
+Plantilla.unJugador = function (jugador) {
+    // Si no se ha proporcionado valor para jugador
+    jugador = jugador || this.datosJugadoresNulos
+
+    // Si jugador NO es un objeto 
+    if (typeof jugador !== "object") jugador = this.datosJugadoresNulos
+    let msj = Plantilla.plantillaFormularioJugador.actualiza(jugador)
+    Frontend.Article.actualizar("Mostrar un jugador", msj)
+}
+
+/**
+ * Función para recupar un jugador de la base de datos por su id
+ * @param {*} idJugador ID del jugador que queremos recuperar de la base de datos
+ * @param {*} callBackFn Función que se va a llamara cuando recuperemos al jugador
+ */
+Plantilla.recuperaJugador = async function (idJugador, callBackFn) {
+    try {
+        const url = Frontend.API_GATEWAY + "/plantilla/getPorId/" + idJugador
+        const response = await fetch(url);
+        if (response) {
+            const jugador = await response.json()
+            callBackFn(jugador)
+        }
+    } catch (error) {
+        alert("Error: No se han podido acceder al API Gateway")
+        console.error(error)
+    }
+}
+
+/**
+ * Función para mostrar los datos de un jugador
+ * @param {*} idJugador ID del jugador que queremos mostrar los datos
+ */
+Plantilla.mostrar = function (idJugador) {
+    this.recuperaJugador(idJugador, this.unJugador)
+}
+
+/**
+ * Función para guardar los cambios realizados en un jugador
+ */
+Plantilla.guardar = async function () {
+    try {
+        let url = Frontend.API_GATEWAY + "/plantilla/set-cambios/"
+        let id_jugador = document.getElementById("form-jugador-id").value
+        const response = await fetch(url, {
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            mode: 'no-cors', // no-cors, cors, *same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'omit', // include, *same-origin, omit
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrer: 'no-referrer', // no-referrer, *client
+            body: JSON.stringify({
+                "id_jugador": id_jugador,
+                "nombre_jugador": document.getElementById("form-jugador-nombre").value,
+                "apellidos_jugador": document.getElementById("form-jugador-apellidos").value,
+                "apodo_jugador": document.getElementById("form-jugador-apodo").value,
+                "dorsal_jugador": document.getElementById("form-jugador-dorsal").value,
+                "posicion_jugador": document.getElementById("form-jugador-posicion").value,
+                "fecha_nacimiento_jugador": {
+                    "dia": document.getElementById("form-jugador-dia").value,
+                    "mes": document.getElementById("form-jugador-mes").value,
+                    "año": document.getElementById("form-jugador-anio").value,
+                },
+                "equipos_jugados_jugador": document.getElementById("form-jugador-trayectoria").value
+            }), // body data type must match "Content-Type" header
+        })
+        /*
+        Error: No procesa bien la respuesta devuelta
+        if (response) {
+            const persona = await response.json()
+            alert(persona)
+        }
+        */
+        Plantilla.mostrar(id_jugador)
+    } catch (error) {
+        alert("Error: No se han podido acceder al API Gateway " + error)
+        //console.error(error)
+    }
+}
+
+////////////////////////////////
 
 /**
  * Función que descarga la info MS Plantilla al llamar a una de sus rutas
@@ -133,7 +365,7 @@ Plantilla.listadoDeNombres = function (jugadores) {
     // Mensaje a mostrar 
     let mensajeAMostrar = `<table width="100%" class="listado-personas">
     <thead>
-        <th width="20%">Nombre de los jugadores</th>
+        <th width="80%">Nombre de los jugadores</th>
     </thead>
     <tbody>`;
 
@@ -141,8 +373,11 @@ Plantilla.listadoDeNombres = function (jugadores) {
     if (Array.isArray(jugadores.data)) {
         for (let i = 0; i < jugadores.data.length; ++i) {
             mensajeAMostrar += `
-            <tr>
+            <tr>>
                 <td>${jugadores.data[i].data.nombre}</td>
+                <td>
+                    <div><a href="javascript:Plantilla.mostrar('${jugadores.data[i].ref['@ref'].id}')" class="opcion-secundaria mostrar">Mostrar</a></div>
+                </td>
             </tr>`;
         }
     }
@@ -213,13 +448,12 @@ Plantilla.listadoDeNombresOrden = function (jugadores) {
  * Función para listar todos los datos de los jugadores que haya en la base de datos
  * @param {jugadores} Jugadores Vector con todos los jugadores de la BBDD
  */
-Plantilla.listadoJugadores = function (jugadores) {
+Plantilla.listadoJugadores = function (datosJugadores) {
     // Si no se ha proporcionado valor para datosDescargados
-    jugadores = jugadores || this.datosJugadoresNulos
+    jugadores = datosJugadores || this.datosJugadoresNulos
 
     // Si datos descargados NO es un objeto 
     if (typeof jugadores !== "object") jugadores = this.datosJugadoresNulos
-
 
     // Si datos descargados NO contiene los campos
     if (Array.isArray(jugadores.data)) {
@@ -261,7 +495,11 @@ Plantilla.listadoJugadores = function (jugadores) {
                 <td>${jugadores.data[i].data.fecha_nacimiento.dia}/${jugadores.data[i].data.fecha_nacimiento.mes}/${jugadores.data[i].data.fecha_nacimiento.año}</td>
                 <td>${jugadores.data[i].data.dorsal}</td>
                 <td>${jugadores.data[i].data.posicion}</td>
-                <td>${jugadores.data[i].data.equipos_jugados}</td>              
+                <td>${jugadores.data[i].data.equipos_jugados}</td>
+                <td>
+                <div><a href="javascript:Plantilla.mostrar('${jugadores.data[i].ref['@ref'].id}')" class="opcion-secundaria mostrar">Mostrar</a></div>
+
+        </td>              
             </tr>`;
 
         }
@@ -270,71 +508,6 @@ Plantilla.listadoJugadores = function (jugadores) {
 
     mensajeAMostrar += `</tbody></table>`;
     Frontend.Article.actualizar("Listado de los jugadores", mensajeAMostrar)
-    return mensajeAMostrar;
-}
-
-/**
- * Función para listar los datos de un jugador de la base de datos
- * @param {jugadores} Jugadores Vector con todos los jugadores de la base de datos
- */
-Plantilla.listadoAleatorio = function (jugadores) {
-    // Si no se ha proporcionado valor para datosDescargados
-    jugadores = jugadores || this.datosJugadoresNulos
-
-    // Si datos descargados NO es un objeto 
-    if (typeof jugadores !== "object") jugadores = this.datosJugadoresNulos
-
-
-    // Si datos descargados NO contiene los campos
-    if (Array.isArray(jugadores.data)) {
-        for (let i = 0; i < jugadores.data.length && Array.isArray(jugadores.data); ++i) {
-            if (typeof jugadores.data[i].data.nombre === "undefined" ||
-                typeof jugadores.data[i].data.apellidos === "undefined" ||
-                typeof jugadores.data[i].data.apodo === "undefined" ||
-                typeof jugadores.data[i].data.fecha_nacimiento === "undefined" ||
-                typeof jugadores.data[i].data.dorsal === "undefined" ||
-                typeof jugadores.data[i].data.posicion === "undefined" ||
-                typeof jugadores.data[i].data.equipos_jugados === "undefined"
-            ) jugadores = this.datosJugadoresNulos
-        }
-    }
-
-    //console.log(jugadores) Para mostrar el contenido de jugadores
-
-    // Vamos a mostrar los datos de un jugador aleatorio de entre todos los que haya en la base de datos
-    var i = 0
-    if (Array.isArray(jugadores.data)) {
-        i = Math.floor(Math.random() * jugadores.data.length-1) + 1;
-    }
-
-    // Mensaje a mostrar 
-    let mensajeAMostrar = `<table width="100%" class="listado-personas">
-    <thead>
-        <th width="20%">Nombre</th>
-        <th width="20%">Apellidos</th>
-        <th width="20%">Apodo</th>
-        <th width="20%">Fecha de nacimiento</th>
-        <th width="20%">Dorsal</th>
-        <th width="20%">Posición</th>
-        <th width="20%">Trayectoria</th>
-    </thead>
-    <tbody>`;
-
-    // Si jugadores no se ha pasado correctamente, no podría leer los datos, por lo tanto se dejaría la tabla en blanco
-    if(Array.isArray(jugadores.data)){
-    mensajeAMostrar += `
-            <tr>
-                <td>${jugadores.data[i].data.nombre}</td>
-                <td>${jugadores.data[i].data.apellidos}</td>
-                <td>${jugadores.data[i].data.apodo}</td>
-                <td>${jugadores.data[i].data.fecha_nacimiento.dia}/${jugadores.data[i].data.fecha_nacimiento.mes}/${jugadores.data[i].data.fecha_nacimiento.año}</td>
-                <td>${jugadores.data[i].data.dorsal}</td>
-                <td>${jugadores.data[i].data.posicion}</td>
-                <td>${jugadores.data[i].data.equipos_jugados}</td>              
-            </tr>`;
-    }
-    mensajeAMostrar += `</tbody></table>`;
-    Frontend.Article.actualizar("Datos de un jugador", mensajeAMostrar)
     return mensajeAMostrar;
 }
 
@@ -372,11 +545,3 @@ Plantilla.procesarListadoDeNombresOrden = function () {
 Plantilla.procesarListadoJugadores = function () {
     this.descargarRuta("/plantilla/get-todos", this.listadoJugadores)
 }
-
-/**
- * Función principal para responder al evento de elegir la opción "Datos de un jugador"
- */
-Plantilla.procesarListadoAleatorio = function() {
-    this.descargarRuta("/plantilla/get-todos", this.listadoAleatorio)
-}
-

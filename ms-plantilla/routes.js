@@ -57,6 +57,29 @@ router.get("/get-todos", async (req, res) => {
     }
 });
 
+/**
+ * Obtiene un jugador por su ID
+ */
+router.get("/getPorId/:idJugador", async (req, res) => {
+    try {
+        await callbacks.getPorId(req, res)
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+
+/**
+ * Modifica los campos de un jugador
+ */
+router.post("/set-cambios", async (req, res) => {
+    try {
+        await callbacks.setCambios(req, res)
+    } catch (error) {
+        console.log(error);
+    }
+});
+
 
 // Exporto el módulo para poder usarlo en server
 module.exports = router;

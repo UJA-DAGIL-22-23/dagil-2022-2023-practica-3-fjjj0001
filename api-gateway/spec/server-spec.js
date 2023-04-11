@@ -39,7 +39,7 @@ describe('API Gateway: rutas estáticas', () => {
         })
         .end((error) => { error ? done.fail(error) : done() })
     });
-    it('Devuelve MS Plantilla Acerca De', (done) => {
+    it('Devuelve todos los jugadores de la base de datos y comprueba que el primero tenga de nombre Sergio', (done) => {
       supertest(app)
         .get('/plantilla/get-todos')
         .expect(200)
@@ -52,6 +52,22 @@ describe('API Gateway: rutas estáticas', () => {
 
         })
         .end((error) => { error ? done.fail(error) : done() })
+    });
+
+    it('Devuelve Leonardo Santana da Silva al recuperar los datos del Jugador con id 361431682640773325 mediante getPorId', (done) => {
+      supertest(app)
+        .get('/plantilla/getPorId/361431682640773325')
+        .expect(200)
+        .expect('Content-Type', /json/)
+        .expect(function (res) {
+          //console.log( res.body ); // Para comprobar qué contiene exactamente res.body
+          assert(res.body.data.hasOwnProperty('nombre'));
+          assert(res.body.data.nombre === "Leonardo");
+          assert(res.body.data.hasOwnProperty('apellidos'));
+          assert(res.body.data.apellidos === "Santana Da Silva");
+        })
+        .end((error) => { error ? done.fail(error) : done(); }
+        );
     });
   })
 });

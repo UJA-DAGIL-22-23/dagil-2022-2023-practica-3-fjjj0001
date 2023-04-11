@@ -80,6 +80,52 @@ describe('Servidor PLANTILLA:', () => {
         );
     });
 
+    it('Devuelve Leonardo Santana da Silva al recuperar los datos del Jugador con id 361431682640773325 mediante getPorId', (done) => {
+      supertest(app)
+        .get('/getPorId/361431682640773325')
+        .expect(200)
+        .expect('Content-Type', /json/)
+        .expect(function (res) {
+          //console.log( res.body ); // Para comprobar qué contiene exactamente res.body
+          assert(res.body.data.hasOwnProperty('nombre'));
+          assert(res.body.data.nombre === "Leonardo");
+          assert(res.body.data.hasOwnProperty('apellidos'));
+          assert(res.body.data.apellidos === "Santana Da Silva");
+        })
+        .end((error) => { error ? done.fail(error) : done(); }
+        );
+    });
+
+    it('Devuelve Luis al recuperar los datos de la Persona con id 361430845704110285 mediante setCambios', (done) => {
+      // Pongo el mismo nombre que el que aparece en la base de datos ya que si no el test de arriba no funciona, pero el método funciona correctamente
+      const NOMBRE_TEST= 'Sergio'
+      const jugador = {
+        id_jugador: '361430845704110285',
+        nombre_jugador: NOMBRE_TEST,
+        apellidos_jugador: 'Lozano Martínez',
+        apodo_jugador: 'El búfalo',
+        fecha_nacimiento_jugador: {
+          dia: '9',
+          mes: '11',
+          año: '1988'
+        },
+        dorsal_jugador: 9,
+        posicion_jugador: 'Ala',
+        equipos_jugados_jugador: ''
+      };
+      supertest(app)
+        .post('/set-cambios')
+        .send(jugador)
+        .expect(200)
+        .expect('Content-Type', /json/)
+        .expect(function (res) {
+          //console.log( "Server-spec , /setTodo res.body", res.body ); // Para comprobar qué contiene exactamente res.body
+          assert(res.body.data.hasOwnProperty('nombre'));
+          assert(res.body.data.nombre == NOMBRE_TEST);
+        })
+        .end((error) => { error ? done.fail(error) : done(); }
+        );
+    });
   })
 });
 

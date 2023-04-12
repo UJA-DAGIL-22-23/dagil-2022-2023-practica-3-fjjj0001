@@ -91,9 +91,8 @@ Plantilla.plantillaFormularioJugador.formulario = `
                 <td><input type="text" class="form-persona-elemento editable" disabled
                         id="form-jugador-posicion" required value="${Plantilla.plantillaTags.POSICION}" 
                         name="posicion_jugador"/></td>
-                <td><input type="text" class="form-persona-elemento editable" disabled
-                        id="form-jugador-trayectoria" required value="${Plantilla.plantillaTags.EQUIPOS_JUGADOS}"
-                        name="equipos-jugados-jugador"/></td>
+                <td><p class="form-persona-elemento"
+                        id="form-jugador-trayectoria" name="equipos-jugados-jugador">${Plantilla.plantillaTags.EQUIPOS_JUGADOS}</p></td>
                 <td>
                     <div><a href="javascript:Plantilla.editar()" id="editar-btn" onclick="Plantilla.mostrarBotonesEdicion()" class="opcion-secundaria mostrar">Editar</a></div>
                     <div><a href="javascript:Plantilla.guardar()" id="guardar-btn" class="opcion-terciaria editar ocultar">Guardar</a></div>
@@ -124,11 +123,11 @@ Plantilla.mostrarBotonesEdicion = function () {
  */
 Plantilla.editar = function () {
     document.getElementById("form-jugador-nombre").disabled = false;
-    //document.getElementById("form-jugador-apellidos").disabled = false;
-    //document.getElementById("form-jugador-apodo").disabled = false;
-    //document.getElementById("form-jugador-dia").disabled = false;
-    //document.getElementById("form-jugador-mes").disabled = false;
-    //document.getElementById("form-jugador-anio").disabled = false;
+    document.getElementById("form-jugador-apellidos").disabled = false;
+    document.getElementById("form-jugador-apodo").disabled = false;
+    document.getElementById("form-jugador-dia").disabled = false;
+    document.getElementById("form-jugador-mes").disabled = false;
+    document.getElementById("form-jugador-anio").disabled = false;
 }
 
 /**

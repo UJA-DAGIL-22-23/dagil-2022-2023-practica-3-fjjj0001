@@ -39,9 +39,6 @@
 ![image](https://user-images.githubusercontent.com/114186139/231155734-e0bf68a9-b55d-489e-bc64-408bdfd0a5c4.png)
 ![image](https://user-images.githubusercontent.com/114186139/231155829-01ef8c6b-3acc-40b1-906e-ab9b81e2bafc.png)
  
- #### Inciso
- A pesar de intentarlo varias veces, los expects para mostrar un solo jugador y modificar su nombre me daban constantemente problemas por lo que no he podido implementarlos.
- 
  ## Captura final del tablero
  ![image](https://user-images.githubusercontent.com/114186139/231156150-f8df4108-c2e2-47d3-ae4f-75cd9bdc1de6.png)
 

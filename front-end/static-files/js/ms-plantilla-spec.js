@@ -23,15 +23,35 @@ const datosDescargadosPrueba = {
     fecha: "00/00/0000"
 }
 
-const datosJugadoresPrueba = {
-    nombre: "Sergio", 
-    apellidos: "Lozano Martínez", 
-    apodo: "El búfalo", 
-    fecha_nacimiento: {dia: "9", mes: "11", año: "1988"}, 
-    dorsal: "9", 
-    posicion: "Ala", 
-    equipos_jugados: ["EFA Arganda", "UD Las Rozas Boadilla", "Reale Cartagena", "Caja Segovia", "Barça"]
-}
+let j = {
+    ref: {
+        "@ref": {
+            id: "361430845704110285"
+        }
+    },
+    data: {
+        nombre: "Sergio",
+        apellidos: "Lozano Martínez",
+        apodo: "El búfalo",
+        fecha_nacimiento: {
+          dia: "9",
+          mes: "11",
+          año: "1988"
+        },
+        dorsal: 9,
+        posicion: "Ala",
+        equipos_jugados: [
+          "EFA Arganda",
+          "UD Las Rozas Boadilla",
+          "Reale Cartagena",
+          "Caja Segovia",
+          "Barça"
+        ]
+      }
+};
+
+
+let jugador = { data: j }
 
 // Función para esperar y dar tiempo a que responda el microservicio
 function esperar(ms) {
@@ -252,21 +272,7 @@ describe("Plantilla.listadoDeNombresOrden: ", function () {
 })
 
 describe("Plantilla.listadoJugadores: ", function () {
-
-    let j = {
-        nombre: "Sergio"
-        , apellidos: "Lozano Martínez"
-        , apodo: "El búfalo"
-        , fecha_nacimiento: {
-            dia: "9"
-            , mes: "11"
-            , año: "1988"}
-        , dorsal: "9"
-        , posicion: "Ala"
-        , equipos_jugados: ["EFA Arganda", "UD Las Rozas Boadilla", "Reale Cartagena", "Caja Segovia", "Barça"]}
-
-    let jugador = { data: j }
-
+    
     it("muestra datos nulos cuando le pasamos un valor nulo",
         function () {
             Plantilla.listadoJugadores()
@@ -321,14 +327,60 @@ describe("Plantilla.listadoJugadores: ", function () {
             expect(elementoTitulo.innerHTML).toBe(TITULO_LISTADO_JUGADORES)
             expect(elementoContenido.innerHTML.search(Plantilla.datosJugadoresNulos.equipos_jugados) == "").toBeTrue()
         })
-    it("muestra correctamente los datos de los jugadores",
+    it("muestra correctamente el título",
         function () {
-            let mensaje = Plantilla.listadoJugadores(jugador)
+            
+            // No he logrado conseguir el expect para que compruebe si los datos de los jugadores se muestran correctamente
             expect(elementoTitulo.innerHTML).toBe(TITULO_LISTADO_JUGADORES)
 
-            // No he logrado conseguir que funcione este expect, no recibe correctamente el objeto de tipo data
+    })
+})
 
-            // Comprobamos que al buscar el nombre lo encuentra en el article
-            //expect(mensaje.includes(j.nombre)).toBeTrue()
+describe("Plantilla.unJugador: ", function () {
+
+    it("si no se pasa nada no muestra ningún dato",
+    function () {
+        let msj = Plantilla.unJugador()
+        expect(elementoTitulo.innerHTML).toBe(TITULO_MOSTRAR)
+        expect(msj.includes(j.ref['@ref'].id)).toBeFalse()
+        expect(msj.includes(j.data.nombre)).toBeFalse()
+        expect(msj.includes(j.data.apellidos)).toBeFalse()
+        expect(msj.includes(j.data.apodo)).toBeFalse()
+        expect(msj.includes(j.data.fecha_nacimiento.dia)).toBeFalse()
+        expect(msj.includes(j.data.fecha_nacimiento.mes)).toBeFalse()
+        expect(msj.includes(j.data.fecha_nacimiento.año)).toBeFalse()
+        expect(msj.includes(j.data.dorsal)).toBeFalse()
+        expect(msj.includes(j.data.posicion)).toBeFalse()
+        expect(msj.includes(j.data.equipos_jugados)).toBeFalse()
+    })
+    it("si no se pasa una variable de tipo object no muestra ningún dato",
+    function () {
+        let msj = Plantilla.unJugador(23)
+        expect(elementoTitulo.innerHTML).toBe(TITULO_MOSTRAR)
+        expect(msj.includes(j.ref['@ref'].id)).toBeFalse()
+        expect(msj.includes(j.data.nombre)).toBeFalse()
+        expect(msj.includes(j.data.apellidos)).toBeFalse()
+        expect(msj.includes(j.data.apodo)).toBeFalse()
+        expect(msj.includes(j.data.fecha_nacimiento.dia)).toBeFalse()
+        expect(msj.includes(j.data.fecha_nacimiento.mes)).toBeFalse()
+        expect(msj.includes(j.data.fecha_nacimiento.año)).toBeFalse()
+        expect(msj.includes(j.data.dorsal)).toBeFalse()
+        expect(msj.includes(j.data.posicion)).toBeFalse()
+        expect(msj.includes(j.data.equipos_jugados)).toBeFalse()
+    })
+    it("se muestra el mensaje con los datos del jugador",
+        function () {
+            let msj = Plantilla.unJugador(j)
+            expect(msj.includes(j.ref['@ref'].id)).toBeTrue()
+            expect(elementoTitulo.innerHTML).toBe(TITULO_MOSTRAR)
+            expect(msj.includes(j.data.nombre)).toBeTrue()
+            expect(msj.includes(j.data.apellidos)).toBeTrue()
+            expect(msj.includes(j.data.apodo)).toBeTrue()
+            expect(msj.includes(j.data.fecha_nacimiento.dia)).toBeTrue()
+            expect(msj.includes(j.data.fecha_nacimiento.mes)).toBeTrue()
+            expect(msj.includes(j.data.fecha_nacimiento.año)).toBeTrue()
+            expect(msj.includes(j.data.dorsal)).toBeTrue()
+            expect(msj.includes(j.data.posicion)).toBeTrue()
+            expect(msj.includes(j.data.equipos_jugados)).toBeTrue()
         })
 })

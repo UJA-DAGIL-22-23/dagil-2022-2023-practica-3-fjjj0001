@@ -22,15 +22,25 @@ Plantilla.datosDescargadosNulos = {
 
 // Plantilla de jugadores vacía
 Plantilla.datosJugadoresNulos = {
-    id: "",
-    nombre: "",
-    apellidos: "",
-    apodo: "",
-    fecha_nacimiento: "",
-    dorsal: "",
-    posicion: "",
-    equipos_jugados: ""
-}
+    ref: {
+        "@ref": {
+            id: ""
+        }
+    },
+    data: {
+        nombre: "",
+        apellidos: "",
+        apodo: "",
+        fecha_nacimiento: {
+          dia: "",
+          mes: "",
+          año: ""
+        },
+        dorsal: "",
+        posicion: "",
+        equipos_jugados: ""
+      }
+};
 
 // Tags que voy a usar para sustituir los campos
 Plantilla.plantillaTags = {
@@ -181,8 +191,10 @@ Plantilla.unJugador = function (jugador) {
 
     // Si jugador NO es un objeto 
     if (typeof jugador !== "object") jugador = this.datosJugadoresNulos
+
     let msj = Plantilla.plantillaFormularioJugador.actualiza(jugador)
     Frontend.Article.actualizar("Mostrar un jugador", msj)
+    return msj;
 }
 
 /**

@@ -42,6 +42,10 @@
  ## Captura final del tablero
  ![image](https://user-images.githubusercontent.com/114186139/231156150-f8df4108-c2e2-47d3-ae4f-75cd9bdc1de6.png)
 
+# INCREMENTO 3
+## Captura inicial del tablero de Trello
+![image](https://user-images.githubusercontent.com/114186139/232308895-bcdda599-d101-4d85-8205-983cd4226252.png)
+
 
 # Capturas de Fauna
 * Home de Fauna

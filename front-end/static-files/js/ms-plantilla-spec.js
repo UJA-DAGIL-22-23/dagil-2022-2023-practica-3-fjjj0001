@@ -75,7 +75,36 @@ let vector_j = [{
             "Barça"
         ]
     }
-}];
+},
+{
+    ref: {
+        "@ref": {
+            id: "361431043633316045"
+        }
+    },
+    data: {
+        nombre: "Carlos Vagner",
+        apellidos: "Gularte Filho",
+        apodo: "Ferrao",
+        fecha_nacimiento: {
+          dia: "29",
+          mes: "10",
+          año: "1990"
+        },
+        dorsal: "11",
+        posicion: "Pívot",
+        equipos_jugados: [
+          "Palmitos",
+          "Joinville",
+          "Atlântico",
+          "Cortiana UCS",
+          "Norte Catarinense",
+          "MFK Tyunen",
+          "Barça"
+        ]
+      }
+}
+];
 
 let jugador = { data: j }
 
@@ -250,21 +279,6 @@ describe("Plantilla.listadoDeNombres: ", function () {
 
 describe("Plantilla.listadoDeNombresOrden: ", function () {
 
-    let j = {
-        nombre: "Sergio"
-        , apellidos: "Lozano Martínez"
-        , apodo: "El búfalo"
-        , fecha_nacimiento: {
-            dia: "9"
-            , mes: "11"
-            , año: "1988"
-        }
-        , dorsal: "9"
-        , posicion: "Ala"
-        , equipos_jugados: ["EFA Arganda", "UD Las Rozas Boadilla", "Reale Cartagena", "Caja Segovia", "Barça"]
-    }
-
-    let jugador = { data: j }
 
     it("muestra datos nulos cuando le pasamos un valor nulo",
         function () {
@@ -398,4 +412,58 @@ describe("Plantilla.unJugador: ", function () {
             expect(msj.includes(j.data.posicion)).toBeTrue()
             expect(msj.includes(j.data.equipos_jugados)).toBeTrue()
         })
+})
+
+describe("Plantilla.anterior: ", function () {
+    let indices_prueba = []
+    it("si no se pasa nada el array de indices tiene tamaño 1 ['']",
+        function () {
+            indices_prueba = Plantilla.anterior()
+            expect(indices_prueba).toHaveSize(1)
+    })
+
+    it("si no se pasa un objeto de tipo objet el array de indices tiene tamaño 1, indices = ['']",
+        function () {
+            indices_prueba = Plantilla.anterior(23)
+            expect(indices_prueba).toHaveSize(1)
+    })
+
+    // No puedo probar el caso en el que se pasa un array con datos normales porque document.getElementById("form-jugador-id").value 
+    // es undefined ya que aún no ha cargado el formulario
+})
+
+describe("Plantilla.siguiente: ", function () {
+    let indices_prueba = []
+    it("si no se pasa nada el array de indices tiene tamaño 1, indices = ['']",
+        function () {
+            indices_prueba = Plantilla.siguiente()
+            expect(indices_prueba).toHaveSize(1)
+    })
+
+    it("si no se pasa un objeto de tipo objet el array de indices tiene tamaño 1, indices = ['']",
+        function () {
+            indices_prueba = Plantilla.siguiente(23)
+            expect(indices_prueba).toHaveSize(1)
+    })
+
+    // No puedo probar el caso en el que se pasa un array con datos normales porque document.getElementById("form-jugador-id").value 
+    // es undefined ya que aún no ha cargado el formulario
+})
+
+describe("Plantilla.filtraVector: ", function () {
+    let vector_prueba = []
+    it("si no se pasa nada el array que devuelve tiene tamaño 0",
+        function () {
+            vector_prueba = Plantilla.filtraVector()
+            expect(vector_prueba).toHaveSize(0)
+    })
+
+    it("si no se pasa una variable de tipo object el array que devuelve tiene tamaño 0",
+        function () {
+            vector_prueba = Plantilla.filtraVector(33)
+            expect(vector_prueba).toHaveSize(0)
+    })
+
+    // No puedo probar si se le pasa un array normal ya que document.getElementById("busqueda").value aún no está cargado
+    // y por lo tanto su valor es undefined
 })

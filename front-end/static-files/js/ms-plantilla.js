@@ -44,27 +44,27 @@ Plantilla.datosJugadoresNulos = {
 
 Plantilla.vectorJugadoresNulos = [
     {
-      ref: {
-        "@ref": {
-          id: ""
-        }
-      },
-      data: {
-        nombre: "",
-        apellidos: "",
-        apodo: "",
-        fecha_nacimiento: {
-          dia: "",
-          mes: "",
-          año: ""
+        ref: {
+            "@ref": {
+                id: ""
+            }
         },
-        dorsal: "",
-        posicion: "",
-        equipos_jugados: ""
-      }
+        data: {
+            nombre: "",
+            apellidos: "",
+            apodo: "",
+            fecha_nacimiento: {
+                dia: "",
+                mes: "",
+                año: ""
+            },
+            dorsal: "",
+            posicion: "",
+            equipos_jugados: ""
+        }
     }
-  ];
-  
+];
+
 
 // Tags que voy a usar para sustituir los campos
 Plantilla.plantillaTags = {
@@ -83,14 +83,12 @@ Plantilla.plantillaTags = {
 /// Plantilla para poner los datos de un jugador en un tabla dentro de un formulario
 Plantilla.plantillaFormularioJugador = {}
 
-Plantilla.siguiente = function (i) {
-    Plantilla.mostrar(i + 1)
-}
-
 // Cabecera del formulario para mostrar los datos de un jugador
 Plantilla.plantillaFormularioJugador.formulario = `
 <form method='post' action=''>
     <table width="100%" class="listado-personas">
+    <a href="javascript:Plantilla.anteriorJugador()" id="sig-btn" class="opcion-secundaria">Anterior</a>
+    <a href="javascript:Plantilla.siguienteJugador()" id="ant-btn" class="opcion-secundaria sig-btn">Siguiente</a>
         <thead>
             <th width="10%">Id</th><th width="20%">Nombre</th><th width="20%">Apellidos</th>
             <th width="20%">Apodo</th><th width="20%">Fecha de nacimiento</th><th width="20%">Dorsal</th>
@@ -137,6 +135,80 @@ Plantilla.plantillaFormularioJugador.formulario = `
     </table>
 </form>
 `;
+
+// Función que muestra el siguiente jugador de la base de datos
+Plantilla.siguienteJugador = function () {
+    Plantilla.recupera(this.siguiente)
+}
+
+// Función que muestra el jugador anterior de la base de datos
+Plantilla.anteriorJugador = function () {
+    Plantilla.recupera(this.anterior)
+}
+
+// Función para obtener el jugador siguiente al actual y mostrarlo
+Plantilla.siguiente = function (vector) {
+    vector = vector || Plantilla.vectorJugadoresNulos
+    if (typeof vector !== "object") vector = Plantilla.vectorJugadoresNulos
+    // Sacamos los índices
+    let indices = []
+    if (Array.isArray(vector)) {
+        for (let i = 0; i < vector.length; i++) {
+            indices.push(vector[i].ref['@ref'].id)
+        }
+    }
+    // Obtenemos la posición del jugador sacando la del indice en el array anterior
+    let pos
+    if (indices.length > 1)
+        pos = indices.indexOf(document.getElementById("form-jugador-id").value)
+    if (typeof pos === "number") {
+        // Disminuimos en 1 la posición para pasar al anterior
+        pos++
+        // Controlamos que no nos salgamos del rango [0, vector.length - 1]
+        pos = (pos % vector.length + vector.length) % vector.length;
+        //Mostramos el siguiente jugador
+        Plantilla.mostrar(indices[pos])
+    } else
+        Plantilla.sustituyeTags(Plantilla.plantillaFormularioJugador.formulario, Plantilla.datosJugadoresNulos)
+    return indices
+}
+
+// Función para obtener el jugador anterior al actual y mostrarlo
+Plantilla.anterior = function (vector) {
+
+    vector = vector || Plantilla.vectorJugadoresNulos
+
+    if (typeof vector !== "object") vector = Plantilla.vectorJugadoresNulos
+
+    // Sacamos los índices
+    let indices = []
+    if (Array.isArray(vector)) {
+        for (let i = 0; i < vector.length; i++) {
+            indices.push(vector[i].ref['@ref'].id)
+        }
+    }
+
+    // Obtenemos la posición del jugador sacando la del indice en el array anterior
+    let pos
+    if (indices.length > 1)
+        pos = indices.indexOf(document.getElementById("form-jugador-id").value)
+
+    if (typeof pos === "number") {
+        console.log(pos)
+        // Disminuimos en 1 la posición para pasar al anterior
+        pos--
+
+        // Controlamos que no nos salgamos del rango [0, vector.length - 1]
+        pos = (pos % vector.length + vector.length) % vector.length;
+
+        //Mostramos el siguiente jugador
+        Plantilla.mostrar(indices[pos])
+    } else
+
+        Plantilla.sustituyeTags(Plantilla.plantillaFormularioJugador.formulario, Plantilla.datosJugadoresNulos)
+
+    return indices
+}
 
 /**
  * Función para ocultar el botón de editar y mostrar los botones de guardar y cancelar
@@ -294,8 +366,6 @@ Plantilla.guardar = async function () {
     }
 }
 
-////////////////////////////////
-
 /**
  * Función que descarga la info MS Plantilla al llamar a una de sus rutas
  * @param {string} ruta Ruta a descargar
@@ -408,7 +478,7 @@ Plantilla.listadoDeNombres = function (jugadores) {
     if (Array.isArray(jugadores.data)) {
         for (let i = 0; i < jugadores.data.length; ++i) {
             mensajeAMostrar += `
-            <tr>>
+            <tr>
                 <td>${jugadores.data[i].data.nombre}</td>
                 <td>
                     <div><a href="javascript:Plantilla.mostrar('${jugadores.data[i].ref['@ref'].id}')" class="opcion-secundaria mostrar">Mostrar</a></div>
@@ -483,9 +553,56 @@ Plantilla.listadoDeNombresOrden = function (jugadores) {
 // Plantilla para poner los datos de los jugadores en una tabla
 Plantilla.plantillaTablaPersonas = {}
 
+// Función que busca un jugador que cumpla un determinado criterio de búsqueda
+Plantilla.buscar = function () {
+    Plantilla.recupera(this.filtraVector)
+}
+
+/**
+ * Función que filtra todos los jugadores según el criterio de búsqueda que se le pase.
+ * Se puede buscar por Nombre, Apellidos, Apodo y Posición
+ * @param {jugadores} vector Vector con todos los jugadores de la base de datos 
+ */
+Plantilla.filtraVector = function (vector) {
+
+    vector = vector || Plantilla.vectorJugadoresNulos
+
+    if (typeof vector !== "object") vector = Plantilla.vectorJugadoresNulos
+
+    // Comprueba que terminoBusqeda no sea undefined
+    const terminoBusqueda = document.getElementById("busqueda");
+    if (terminoBusqueda) {
+
+        // Filtra todos los jugadores según el criterio de búsqueda se obtiene
+        const terminoBusquedaValor = terminoBusqueda.value.trim().toLowerCase();
+        const vectorFiltrado = vector.filter(jugador =>
+            jugador.data.nombre.toLowerCase().includes(terminoBusquedaValor) ||
+            jugador.data.apellidos.toLowerCase().includes(terminoBusquedaValor) ||
+            jugador.data.apodo.toLowerCase().includes(terminoBusquedaValor) ||
+            jugador.data.posicion.toLowerCase().includes(terminoBusquedaValor)
+        );
+
+        // Imprime el vector filtrado y devuelve el vector filtrado para los expects
+        Plantilla.imprimeJugadores(vectorFiltrado);
+        return vectorFiltrado;
+    } else {
+
+        // Devuelve un vector vacío
+        return []
+    }
+
+}
+
 
 // Cabecera de la tabla
 Plantilla.plantillaTablaPersonas.cabecera = `<table width="100%" class="listado-personas">
+<div>
+  <label for="busqueda">Buscar:</label>
+  <input type="text" id="busqueda" name="busqueda">
+  <button onclick="Plantilla.buscar()">Buscar</button>
+</div>
+</br>
+
                     <thead>
                     <th width="10%">Id</th>
                     <th width="20%" id="columna-nombre">Nombre</th>
@@ -525,7 +642,7 @@ Plantilla.plantillaTablaPersonas.pie = `        </tbody>
 /** 
  * Función para actualizar los datos de la tabla con los del jugador que se le pasa 
  * @param jugador Datos del jugador
- */ 
+ */
 Plantilla.plantillaTablaPersonas.actualiza = function (jugador) {
     return Plantilla.sustituyeTags(this.cuerpo, jugador)
 }

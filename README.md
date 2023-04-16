@@ -69,7 +69,7 @@
 ![image](https://user-images.githubusercontent.com/114186139/232345410-8018779c-c371-4ee7-8a1b-520a6eb0b0eb.png)
 ![image](https://user-images.githubusercontent.com/114186139/232345419-78cb337d-6e3b-4deb-b3a4-b9f50e0a49f8.png)
 
-##Captura final del tablero de Trello
+## Captura final del tablero de Trello
 ![image](https://user-images.githubusercontent.com/114186139/232345444-fc7846ab-a69c-43ab-a25d-9f86bedf1589.png)
 
 ### Inciso

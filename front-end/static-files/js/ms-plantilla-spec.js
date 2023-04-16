@@ -13,7 +13,7 @@ const elementoContenido = document.getElementById(Frontend.ID_SECCION_PRINCIPAL_
 const TITULO_HOME = "Plantilla Home"
 const TITULO_ACERCA_DE = "Plantilla Acerca de"
 const TITULO_LISTADO_NOMBRES = "Listado de nombre de los jugadores"
-const TITULO_LISTADO_JUGADORES = "Listado de los jugadores"
+const TITULO_LISTADO_JUGADORES = "Listado de jugadores"
 const TITULO_MOSTRAR = "Mostrar un jugador"
 
 const datosDescargadosPrueba = {
@@ -34,22 +34,48 @@ let j = {
         apellidos: "Lozano Martínez",
         apodo: "El búfalo",
         fecha_nacimiento: {
-          dia: "9",
-          mes: "11",
-          año: "1988"
+            dia: "9",
+            mes: "11",
+            año: "1988"
         },
         dorsal: 9,
         posicion: "Ala",
         equipos_jugados: [
-          "EFA Arganda",
-          "UD Las Rozas Boadilla",
-          "Reale Cartagena",
-          "Caja Segovia",
-          "Barça"
+            "EFA Arganda",
+            "UD Las Rozas Boadilla",
+            "Reale Cartagena",
+            "Caja Segovia",
+            "Barça"
         ]
-      }
+    }
 };
 
+let vector_j = [{
+    ref: {
+        "@ref": {
+            id: "361430845704110285"
+        }
+    },
+    data: {
+        nombre: "Sergio",
+        apellidos: "Lozano Martínez",
+        apodo: "El búfalo",
+        fecha_nacimiento: {
+            dia: "9",
+            mes: "11",
+            año: "1988"
+        },
+        dorsal: 9,
+        posicion: "Ala",
+        equipos_jugados: [
+            "EFA Arganda",
+            "UD Las Rozas Boadilla",
+            "Reale Cartagena",
+            "Caja Segovia",
+            "Barça"
+        ]
+    }
+}];
 
 let jugador = { data: j }
 
@@ -180,10 +206,12 @@ describe("Plantilla.listadoDeNombres: ", function () {
         , fecha_nacimiento: {
             dia: "9"
             , mes: "11"
-            , año: "1988"}
+            , año: "1988"
+        }
         , dorsal: "9"
         , posicion: "Ala"
-        , equipos_jugados: ["EFA Arganda", "UD Las Rozas Boadilla", "Reale Cartagena", "Caja Segovia", "Barça"]}
+        , equipos_jugados: ["EFA Arganda", "UD Las Rozas Boadilla", "Reale Cartagena", "Caja Segovia", "Barça"]
+    }
 
     let jugador = { data: j }
 
@@ -206,7 +234,7 @@ describe("Plantilla.listadoDeNombres: ", function () {
             expect(elementoTitulo.innerHTML).toBe(TITULO_LISTADO_NOMBRES)
             expect(elementoContenido.innerHTML.search(Plantilla.datosJugadoresNulos.nombre) == "").toBeTrue()
             // Objeto sin campo nombre
-            Plantilla.listadoDeNombres({apellidos: "Lozano Martínez", apodo: "El búfalo", fecha_nacimiento: {dia: "9", mes: "11", año: "1988"}, dorsal: "9", posicion: "Ala", equipos_jugados: ["EFA Arganda", "UD Las Rozas Boadilla", "Reale Cartagena", "Caja Segovia", "Barça"]})
+            Plantilla.listadoDeNombres({ apellidos: "Lozano Martínez", apodo: "El búfalo", fecha_nacimiento: { dia: "9", mes: "11", año: "1988" }, dorsal: "9", posicion: "Ala", equipos_jugados: ["EFA Arganda", "UD Las Rozas Boadilla", "Reale Cartagena", "Caja Segovia", "Barça"] })
             expect(elementoTitulo.innerHTML).toBe(TITULO_LISTADO_NOMBRES)
             expect(elementoContenido.innerHTML.search(Plantilla.datosJugadoresNulos.nombre) == "").toBeTrue()
         })
@@ -229,10 +257,12 @@ describe("Plantilla.listadoDeNombresOrden: ", function () {
         , fecha_nacimiento: {
             dia: "9"
             , mes: "11"
-            , año: "1988"}
+            , año: "1988"
+        }
         , dorsal: "9"
         , posicion: "Ala"
-        , equipos_jugados: ["EFA Arganda", "UD Las Rozas Boadilla", "Reale Cartagena", "Caja Segovia", "Barça"]}
+        , equipos_jugados: ["EFA Arganda", "UD Las Rozas Boadilla", "Reale Cartagena", "Caja Segovia", "Barça"]
+    }
 
     let jugador = { data: j }
 
@@ -255,7 +285,7 @@ describe("Plantilla.listadoDeNombresOrden: ", function () {
             expect(elementoTitulo.innerHTML).toBe(TITULO_LISTADO_NOMBRES)
             expect(elementoContenido.innerHTML.search(Plantilla.datosJugadoresNulos.nombre) == "").toBeTrue()
             // Objeto sin campo nombre
-            Plantilla.listadoDeNombresOrden({apellidos: "Lozano Martínez", apodo: "El búfalo", fecha_nacimiento: {dia: "9", mes: "11", año: "1988"}, dorsal: "9", posicion: "Ala", equipos_jugados: ["EFA Arganda", "UD Las Rozas Boadilla", "Reale Cartagena", "Caja Segovia", "Barça"]})
+            Plantilla.listadoDeNombresOrden({ apellidos: "Lozano Martínez", apodo: "El búfalo", fecha_nacimiento: { dia: "9", mes: "11", año: "1988" }, dorsal: "9", posicion: "Ala", equipos_jugados: ["EFA Arganda", "UD Las Rozas Boadilla", "Reale Cartagena", "Caja Segovia", "Barça"] })
             expect(elementoTitulo.innerHTML).toBe(TITULO_LISTADO_NOMBRES)
             expect(elementoContenido.innerHTML.search(Plantilla.datosJugadoresNulos.nombre) == "").toBeTrue()
         })
@@ -271,103 +301,88 @@ describe("Plantilla.listadoDeNombresOrden: ", function () {
         })
 })
 
-describe("Plantilla.listadoJugadores: ", function () {
-    
-    it("muestra datos nulos cuando le pasamos un valor nulo",
+describe("Plantilla.imprimeJugadores: ", function () {
+
+    it("si no se pasa nada no muestra ningún dato",
         function () {
-            Plantilla.listadoJugadores()
+            let msj = Plantilla.imprimeJugadores()
             expect(elementoTitulo.innerHTML).toBe(TITULO_LISTADO_JUGADORES)
-            expect(elementoContenido.innerHTML.search(Plantilla.datosJugadoresNulos.nombre) == "").toBeTrue()
+            expect(msj.includes(j.ref['@ref'].id)).toBeFalse()
+            expect(msj.includes(j.data.nombre)).toBeFalse()
+            expect(msj.includes(j.data.apellidos)).toBeFalse()
+            expect(msj.includes(j.data.apodo)).toBeFalse()
+            expect(msj.includes(j.data.fecha_nacimiento.dia)).toBeFalse()
+            expect(msj.includes(j.data.fecha_nacimiento.mes)).toBeFalse()
+            expect(msj.includes(j.data.fecha_nacimiento.año)).toBeFalse()
+            expect(msj.includes(j.data.dorsal)).toBeFalse()
+            expect(msj.includes(j.data.posicion)).toBeFalse()
+            expect(msj.includes(j.data.equipos_jugados)).toBeFalse()
         })
-    it("muestra datos nulos cuando le pasamos un valor que no es un objeto",
+    it("si no se pasa una variable de tipo object no muestra ningún dato",
         function () {
-            Plantilla.listadoJugadores(23)
+            let msj = Plantilla.imprimeJugadores(23)
             expect(elementoTitulo.innerHTML).toBe(TITULO_LISTADO_JUGADORES)
-            expect(elementoContenido.innerHTML.search(Plantilla.datosJugadoresNulos.nombre) == "").toBeTrue()
+            expect(msj.includes(j.ref['@ref'].id)).toBeFalse()
+            expect(msj.includes(j.data.nombre)).toBeFalse()
+            expect(msj.includes(j.data.apellidos)).toBeFalse()
+            expect(msj.includes(j.data.apodo)).toBeFalse()
+            expect(msj.includes(j.data.fecha_nacimiento.dia)).toBeFalse()
+            expect(msj.includes(j.data.fecha_nacimiento.mes)).toBeFalse()
+            expect(msj.includes(j.data.fecha_nacimiento.año)).toBeFalse()
+            expect(msj.includes(j.data.dorsal)).toBeFalse()
+            expect(msj.includes(j.data.posicion)).toBeFalse()
+            expect(msj.includes(j.data.equipos_jugados)).toBeFalse()
         })
-    it("muestra datos nulos cuando le pasamos un objeto que no tiene campo nombre o vacío",
+        it("se muestra el mensaje con los datos del jugador",
         function () {
-            // Objeto vacío
-            Plantilla.listadoJugadores({})
+            let msj = Plantilla.imprimeJugadores(vector_j)
+            expect(msj.includes(j.ref['@ref'].id)).toBeTrue()
             expect(elementoTitulo.innerHTML).toBe(TITULO_LISTADO_JUGADORES)
-            expect(elementoContenido.innerHTML.search(Plantilla.datosJugadoresNulos.nombre) == "").toBeTrue()
-
-            // Objeto sin campo nombre
-            Plantilla.listadoJugadores({apellidos: "Lozano Martínez", apodo: "El búfalo", fecha_nacimiento: {dia: "9", mes: "11", año: "1988"}, dorsal: "9", posicion: "Ala", equipos_jugados: ["EFA Arganda", "UD Las Rozas Boadilla", "Reale Cartagena", "Caja Segovia", "Barça"]})
-            expect(elementoTitulo.innerHTML).toBe(TITULO_LISTADO_JUGADORES)
-            expect(elementoContenido.innerHTML.search(Plantilla.datosJugadoresNulos.nombre) == "").toBeTrue()
-
-            //Objeto sin campo apellido
-            Plantilla.listadoJugadores({nombre: "Sergio", apodo: "El búfalo", fecha_nacimiento: {dia: "9", mes: "11", año: "1988"}, dorsal: "9", posicion: "Ala", equipos_jugados: ["EFA Arganda", "UD Las Rozas Boadilla", "Reale Cartagena", "Caja Segovia", "Barça"]})
-            expect(elementoTitulo.innerHTML).toBe(TITULO_LISTADO_JUGADORES)
-            expect(elementoContenido.innerHTML.search(Plantilla.datosJugadoresNulos.apellidos) == "").toBeTrue()
-
-            //Objeto sin campo apodo
-            Plantilla.listadoJugadores({nombre: "Sergio", apellidos:"Lozano Martínez", fecha_nacimiento: {dia: "9", mes: "11", año: "1988"}, dorsal: "9", posicion: "Ala", equipos_jugados: ["EFA Arganda", "UD Las Rozas Boadilla", "Reale Cartagena", "Caja Segovia", "Barça"]})
-            expect(elementoTitulo.innerHTML).toBe(TITULO_LISTADO_JUGADORES)
-            expect(elementoContenido.innerHTML.search(Plantilla.datosJugadoresNulos.apodo) == "").toBeTrue()
-
-            //Objeto sin campo fecha
-            Plantilla.listadoJugadores({nombre: "Sergio", apellidos:"Lozano Martínez", apodo: "El búfalo", dorsal: "9", posicion: "Ala", equipos_jugados: ["EFA Arganda", "UD Las Rozas Boadilla", "Reale Cartagena", "Caja Segovia", "Barça"]})
-            expect(elementoTitulo.innerHTML).toBe(TITULO_LISTADO_JUGADORES)
-            expect(elementoContenido.innerHTML.search(Plantilla.datosJugadoresNulos.fecha_nacimiento) == "").toBeTrue()
-
-            //Objeto sin campo dorsal
-            Plantilla.listadoJugadores({nombre: "Sergio", apellidos:"Lozano Martínez", apodo: "El búfalo", fecha_nacimiento: {dia: "9", mes: "11", año: "1988"}, posicion: "Ala", equipos_jugados: ["EFA Arganda", "UD Las Rozas Boadilla", "Reale Cartagena", "Caja Segovia", "Barça"]})
-            expect(elementoTitulo.innerHTML).toBe(TITULO_LISTADO_JUGADORES)
-            expect(elementoContenido.innerHTML.search(Plantilla.datosJugadoresNulos.dorsal) == "").toBeTrue()
-
-            //Objeto sin campo posicion
-            Plantilla.listadoJugadores({nombre: "Sergio", apellidos:"Lozano Martínez", apodo: "El búfalo", fecha_nacimiento: {dia: "9", mes: "11", año: "1988"}, dorsal: "9", equipos_jugados: ["EFA Arganda", "UD Las Rozas Boadilla", "Reale Cartagena", "Caja Segovia", "Barça"]})
-            expect(elementoTitulo.innerHTML).toBe(TITULO_LISTADO_JUGADORES)
-            expect(elementoContenido.innerHTML.search(Plantilla.datosJugadoresNulos.posicion) == "").toBeTrue()
-
-            //Objeto sin campo equipos_jugados
-            Plantilla.listadoJugadores({nombre: "Sergio", apellidos:"Lozano Martínez", apodo: "El búfalo", fecha_nacimiento: {dia: "9", mes: "11", año: "1988"}, dorsal: "9", posicion: "Ala"})
-            expect(elementoTitulo.innerHTML).toBe(TITULO_LISTADO_JUGADORES)
-            expect(elementoContenido.innerHTML.search(Plantilla.datosJugadoresNulos.equipos_jugados) == "").toBeTrue()
+            expect(msj.includes(j.data.nombre)).toBeTrue()
+            expect(msj.includes(j.data.apellidos)).toBeTrue()
+            expect(msj.includes(j.data.apodo)).toBeTrue()
+            expect(msj.includes(j.data.fecha_nacimiento.dia)).toBeTrue()
+            expect(msj.includes(j.data.fecha_nacimiento.mes)).toBeTrue()
+            expect(msj.includes(j.data.fecha_nacimiento.año)).toBeTrue()
+            expect(msj.includes(j.data.dorsal)).toBeTrue()
+            expect(msj.includes(j.data.posicion)).toBeTrue()
+            expect(msj.includes(j.data.equipos_jugados)).toBeTrue()
         })
-    it("muestra correctamente el título",
-        function () {
-            
-            // No he logrado conseguir el expect para que compruebe si los datos de los jugadores se muestran correctamente
-            expect(elementoTitulo.innerHTML).toBe(TITULO_LISTADO_JUGADORES)
 
-    })
 })
 
 describe("Plantilla.unJugador: ", function () {
 
     it("si no se pasa nada no muestra ningún dato",
-    function () {
-        let msj = Plantilla.unJugador()
-        expect(elementoTitulo.innerHTML).toBe(TITULO_MOSTRAR)
-        expect(msj.includes(j.ref['@ref'].id)).toBeFalse()
-        expect(msj.includes(j.data.nombre)).toBeFalse()
-        expect(msj.includes(j.data.apellidos)).toBeFalse()
-        expect(msj.includes(j.data.apodo)).toBeFalse()
-        expect(msj.includes(j.data.fecha_nacimiento.dia)).toBeFalse()
-        expect(msj.includes(j.data.fecha_nacimiento.mes)).toBeFalse()
-        expect(msj.includes(j.data.fecha_nacimiento.año)).toBeFalse()
-        expect(msj.includes(j.data.dorsal)).toBeFalse()
-        expect(msj.includes(j.data.posicion)).toBeFalse()
-        expect(msj.includes(j.data.equipos_jugados)).toBeFalse()
-    })
+        function () {
+            let msj = Plantilla.unJugador()
+            expect(elementoTitulo.innerHTML).toBe(TITULO_MOSTRAR)
+            expect(msj.includes(j.ref['@ref'].id)).toBeFalse()
+            expect(msj.includes(j.data.nombre)).toBeFalse()
+            expect(msj.includes(j.data.apellidos)).toBeFalse()
+            expect(msj.includes(j.data.apodo)).toBeFalse()
+            expect(msj.includes(j.data.fecha_nacimiento.dia)).toBeFalse()
+            expect(msj.includes(j.data.fecha_nacimiento.mes)).toBeFalse()
+            expect(msj.includes(j.data.fecha_nacimiento.año)).toBeFalse()
+            expect(msj.includes(j.data.dorsal)).toBeFalse()
+            expect(msj.includes(j.data.posicion)).toBeFalse()
+            expect(msj.includes(j.data.equipos_jugados)).toBeFalse()
+        })
     it("si no se pasa una variable de tipo object no muestra ningún dato",
-    function () {
-        let msj = Plantilla.unJugador(23)
-        expect(elementoTitulo.innerHTML).toBe(TITULO_MOSTRAR)
-        expect(msj.includes(j.ref['@ref'].id)).toBeFalse()
-        expect(msj.includes(j.data.nombre)).toBeFalse()
-        expect(msj.includes(j.data.apellidos)).toBeFalse()
-        expect(msj.includes(j.data.apodo)).toBeFalse()
-        expect(msj.includes(j.data.fecha_nacimiento.dia)).toBeFalse()
-        expect(msj.includes(j.data.fecha_nacimiento.mes)).toBeFalse()
-        expect(msj.includes(j.data.fecha_nacimiento.año)).toBeFalse()
-        expect(msj.includes(j.data.dorsal)).toBeFalse()
-        expect(msj.includes(j.data.posicion)).toBeFalse()
-        expect(msj.includes(j.data.equipos_jugados)).toBeFalse()
-    })
+        function () {
+            let msj = Plantilla.unJugador(23)
+            expect(elementoTitulo.innerHTML).toBe(TITULO_MOSTRAR)
+            expect(msj.includes(j.ref['@ref'].id)).toBeFalse()
+            expect(msj.includes(j.data.nombre)).toBeFalse()
+            expect(msj.includes(j.data.apellidos)).toBeFalse()
+            expect(msj.includes(j.data.apodo)).toBeFalse()
+            expect(msj.includes(j.data.fecha_nacimiento.dia)).toBeFalse()
+            expect(msj.includes(j.data.fecha_nacimiento.mes)).toBeFalse()
+            expect(msj.includes(j.data.fecha_nacimiento.año)).toBeFalse()
+            expect(msj.includes(j.data.dorsal)).toBeFalse()
+            expect(msj.includes(j.data.posicion)).toBeFalse()
+            expect(msj.includes(j.data.equipos_jugados)).toBeFalse()
+        })
     it("se muestra el mensaje con los datos del jugador",
         function () {
             let msj = Plantilla.unJugador(j)

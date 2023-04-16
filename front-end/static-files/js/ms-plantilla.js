@@ -32,6 +32,28 @@ Plantilla.datosJugadoresNulos = {
         apellidos: "",
         apodo: "",
         fecha_nacimiento: {
+            dia: "",
+            mes: "",
+            año: ""
+        },
+        dorsal: "",
+        posicion: "",
+        equipos_jugados: ""
+    }
+};
+
+Plantilla.vectorJugadoresNulos = [
+    {
+      ref: {
+        "@ref": {
+          id: ""
+        }
+      },
+      data: {
+        nombre: "",
+        apellidos: "",
+        apodo: "",
+        fecha_nacimiento: {
           dia: "",
           mes: "",
           año: ""
@@ -40,7 +62,9 @@ Plantilla.datosJugadoresNulos = {
         posicion: "",
         equipos_jugados: ""
       }
-};
+    }
+  ];
+  
 
 // Tags que voy a usar para sustituir los campos
 Plantilla.plantillaTags = {
@@ -59,7 +83,7 @@ Plantilla.plantillaTags = {
 /// Plantilla para poner los datos de un jugador en un tabla dentro de un formulario
 Plantilla.plantillaFormularioJugador = {}
 
-Plantilla.siguiente = function(i){
+Plantilla.siguiente = function (i) {
     Plantilla.mostrar(i + 1)
 }
 
@@ -70,7 +94,7 @@ Plantilla.plantillaFormularioJugador.formulario = `
         <thead>
             <th width="10%">Id</th><th width="20%">Nombre</th><th width="20%">Apellidos</th>
             <th width="20%">Apodo</th><th width="20%">Fecha de nacimiento</th><th width="20%">Dorsal</th>
-            <th width="20%">Posición</th><th width="20%">Trayectoria</th>
+            <th width="20%">Posición</th><th width="20%">Trayectoria</th><th width="20%">Opciones</th>
         </thead>
         <tbody>
             <tr title="${Plantilla.plantillaTags.ID}">
@@ -455,71 +479,108 @@ Plantilla.listadoDeNombresOrden = function (jugadores) {
     Frontend.Article.actualizar("Listado de nombre de los jugadores", mensajeAMostrar)
 }
 
+
+// Plantilla para poner los datos de los jugadores en una tabla
+Plantilla.plantillaTablaPersonas = {}
+
+
+// Cabecera de la tabla
+Plantilla.plantillaTablaPersonas.cabecera = `<table width="100%" class="listado-personas">
+                    <thead>
+                    <th width="10%">Id</th>
+                    <th width="20%" id="columna-nombre">Nombre</th>
+                    <th width="20%">Apellidos</th>
+                    <th width="20%">Apodo</th>
+                    <th width="20%">Fecha de nacimiento</th>
+                    <th width="20%">Dorsal</th>
+                    <th width="20%">Posición</th>
+                    <th width="20%">Trayectoria</th>
+                    <th width="20%">Opciones</th>
+                    </thead>
+                    <tbody>
+    `;
+
+// Elemento TR que muestra los datos de una persona
+Plantilla.plantillaTablaPersonas.cuerpo = `
+    <tr title="${Plantilla.plantillaTags.ID}">
+        <td>${Plantilla.plantillaTags.ID}</td>
+        <td>${Plantilla.plantillaTags.NOMBRE}</td>
+        <td>${Plantilla.plantillaTags.APELLIDOS}</td>
+        <td>${Plantilla.plantillaTags.APODO}</td>
+        <td>${Plantilla.plantillaTags.DIA}/${Plantilla.plantillaTags.MES}/${Plantilla.plantillaTags.ANIO}</td>
+        <td>${Plantilla.plantillaTags.DORSAL}</td>
+        <td>${Plantilla.plantillaTags.POSICION}</td>
+        <td>${Plantilla.plantillaTags.EQUIPOS_JUGADOS}</td>
+        <td>
+                    <div><a href="javascript:Plantilla.mostrar('${Plantilla.plantillaTags.ID}')" class="opcion-secundaria mostrar">Mostrar</a></div>
+        </td>
+    </tr>
+    `;
+
+// Pie de la tabla
+Plantilla.plantillaTablaPersonas.pie = `        </tbody>
+             </table>
+             `;
+
+/** 
+ * Función para actualizar los datos de la tabla con los del jugador que se le pasa 
+ * @param jugador Datos del jugador
+ */ 
+Plantilla.plantillaTablaPersonas.actualiza = function (jugador) {
+    return Plantilla.sustituyeTags(this.cuerpo, jugador)
+}
+
 /**
- * Función para listar todos los datos de los jugadores que haya en la base de datos
- * @param {jugadores} Jugadores Vector con todos los jugadores de la BBDD
+ * Función para recuperar los jugadores de la base de datos y devuelve vector.data
+ * @param callBackFn Función que se va a llamar cuando se recuperen los datos 
  */
-Plantilla.listadoJugadores = function (datosJugadores) {
+Plantilla.recupera = async function (callBackFn) {
+    let response = null
+
+    // Intento conectar con el microservicio personas
+    try {
+        const url = Frontend.API_GATEWAY + "/plantilla/get-todos"
+        response = await fetch(url)
+
+    } catch (error) {
+        alert("Error: No se han podido acceder al API Gateway")
+        console.error(error)
+        //throw error
+    }
+
+    // Muestro todas las persoans que se han descargado
+    let vectorJugadores = null
+    if (response) {
+        vectorJugadores = await response.json()
+        callBackFn(vectorJugadores.data)
+    }
+}
+
+/**
+ * Función para mostrar los datos de los jugadores en la tabla
+ * @param {vector} vector Array con los datos de los jugadores
+ */
+Plantilla.imprimeJugadores = function (vector) {
+
     // Si no se ha proporcionado valor para datosDescargados
-    jugadores = datosJugadores || this.datosJugadoresNulos
+    vector = vector || this.vectorJugadoresNulos
 
     // Si datos descargados NO es un objeto 
-    if (typeof jugadores !== "object") jugadores = this.datosJugadoresNulos
+    if (typeof vector !== "object") vector = this.vectorJugadoresNulos
 
-    // Si datos descargados NO contiene los campos
-    if (Array.isArray(jugadores.data)) {
-        for (let i = 0; i < jugadores.data.length && Array.isArray(jugadores.data); ++i) {
-            if (typeof jugadores.data[i].data.nombre === "undefined" ||
-                typeof jugadores.data[i].data.apellidos === "undefined" ||
-                typeof jugadores.data[i].data.apodo === "undefined" ||
-                typeof jugadores.data[i].data.fecha_nacimiento === "undefined" ||
-                typeof jugadores.data[i].data.dorsal === "undefined" ||
-                typeof jugadores.data[i].data.posicion === "undefined" ||
-                typeof jugadores.data[i].data.equipos_jugados === "undefined"
-            ) jugadores = this.datosJugadoresNulos
-        }
-    }
+    // Compongo el contenido que se va a mostrar dentro de la tabla
+    let msj = Plantilla.plantillaTablaPersonas.cabecera
+    vector.forEach(e => msj += Plantilla.plantillaTablaPersonas.actualiza(e))
+    msj += Plantilla.plantillaTablaPersonas.pie
 
-    //console.log(jugadores) Para mostrar el contenido de jugadores
+    // Borro toda la info de Article y la sustituyo por la que me interesa
+    Frontend.Article.actualizar("Listado de jugadores", msj)
+    return msj;
+}
 
-    // Mensaje a mostrar 
-    let mensajeAMostrar = `<table width="100%" class="listado-personas">
-    <thead>
-        <th width="20%">Nombre</th>
-        <th width="20%">Apellidos</th>
-        <th width="20%">Apodo</th>
-        <th width="20%">Fecha de nacimiento</th>
-        <th width="20%">Dorsal</th>
-        <th width="20%">Posición</th>
-        <th width="20%">Trayectoria</th>
-    </thead>
-    <tbody>`;
-
-    // Si jugadores.data es un array, es decir, jugadores es distinto de datosJugadoresNulos, se muestra el nombre de todos
-    if (Array.isArray(jugadores.data)) {
-        for (let i = 0; i < jugadores.data.length; ++i) {
-            mensajeAMostrar += `
-            <tr>
-                <td>${jugadores.data[i].data.nombre}</td>
-                <td>${jugadores.data[i].data.apellidos}</td>
-                <td>${jugadores.data[i].data.apodo}</td>
-                <td>${jugadores.data[i].data.fecha_nacimiento.dia}/${jugadores.data[i].data.fecha_nacimiento.mes}/${jugadores.data[i].data.fecha_nacimiento.año}</td>
-                <td>${jugadores.data[i].data.dorsal}</td>
-                <td>${jugadores.data[i].data.posicion}</td>
-                <td>${jugadores.data[i].data.equipos_jugados}</td>
-                <td>
-                <div><a href="javascript:Plantilla.mostrar('${jugadores.data[i].ref['@ref'].id}')" class="opcion-secundaria mostrar">Mostrar</a></div>
-
-        </td>              
-            </tr>`;
-
-        }
-    }
-
-
-    mensajeAMostrar += `</tbody></table>`;
-    Frontend.Article.actualizar("Listado de los jugadores", mensajeAMostrar)
-    return mensajeAMostrar;
+// Función para listar todos los jugadores de la base de datos
+Plantilla.listar = function () {
+    Plantilla.recupera(Plantilla.imprimeJugadores);
 }
 
 /**
@@ -548,11 +609,4 @@ Plantilla.procesarListadoDeNombres = function () {
  */
 Plantilla.procesarListadoDeNombresOrden = function () {
     this.descargarRuta("/plantilla/get-todos", this.listadoDeNombresOrden);
-}
-
-/**
- * Función principal para responder al evento de elegir la opción "Listar jugadores"
- */
-Plantilla.procesarListadoJugadores = function () {
-    this.descargarRuta("/plantilla/get-todos", this.listadoJugadores)
 }

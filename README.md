@@ -46,6 +46,35 @@
 ## Captura inicial del tablero de Trello
 ![image](https://user-images.githubusercontent.com/114186139/232308895-bcdda599-d101-4d85-8205-983cd4226252.png)
 
+### 7. Ver los datos de un determinado jugador/equipo, cambiando con un solo click para ver los datos del anterior o del siguiente.
+![image](https://user-images.githubusercontent.com/114186139/232345127-20388d51-f432-47f3-b813-ef5a95b9a951.png)
+![image](https://user-images.githubusercontent.com/114186139/232345138-5f44f7bf-692a-40f0-81c1-ce2ff0934731.png)
+![image](https://user-images.githubusercontent.com/114186139/232345157-23666ccf-0676-4548-962a-2cedd14d40e7.png)
+
+### 13. Modificar varios de los datos a la vez de un jugador/equipo. Se deberán poder modificar al menos 3 campos además del nombre.
+![image](https://user-images.githubusercontent.com/114186139/232345204-7f213017-bc0e-4a51-bf1e-78a3e7bb3465.png)
+![image](https://user-images.githubusercontent.com/114186139/232345227-e5f5b64a-110b-481f-b18d-5eac9ed23ca7.png)
+![image](https://user-images.githubusercontent.com/114186139/232345255-870fc031-0ee6-4f3e-8095-c3981eb729c7.png)
+
+### 8. Ver un listado de todos los datos de jugadores/equipos cuyo nombre cumple con un criterio de búsqueda indicado por el usuario.
+![image](https://user-images.githubusercontent.com/114186139/232345290-071dfc3e-8b2e-4777-b0e1-c83874ff3250.png)
+![image](https://user-images.githubusercontent.com/114186139/232345298-a15c4969-2728-41d1-977a-d3ff4bca48e7.png)
+
+### 9. Ver un listado de todos los datos de jugadores/equipos que cumplen con un criterio de búsqueda indicado por el usuario para alguno de sus otros campos distintos del nombre.
+#### Ejemplo posición
+![image](https://user-images.githubusercontent.com/114186139/232345351-e9109760-f11b-4f77-bd3c-b613bfb7849b.png)
+![image](https://user-images.githubusercontent.com/114186139/232345379-481d9e37-f418-4397-92f9-24a2ca4cfdd5.png)
+
+#### Ejemplo apellidos
+![image](https://user-images.githubusercontent.com/114186139/232345410-8018779c-c371-4ee7-8a1b-520a6eb0b0eb.png)
+![image](https://user-images.githubusercontent.com/114186139/232345419-78cb337d-6e3b-4deb-b3a4-b9f50e0a49f8.png)
+
+##Captura final del tablero de Trello
+![image](https://user-images.githubusercontent.com/114186139/232345444-fc7846ab-a69c-43ab-a25d-9f86bedf1589.png)
+
+### Inciso
+Al comienzo del incremento tenía las HU 5, 7 y 13. Al final he acabado añadiendo las HU 8 y 9, ya que he personalmente he visto que eran más fáciles de implementar que la HU 5, la cuál intentarñe implementar en el siguiente incremento.
+
 
 # Capturas de Fauna
 * Home de Fauna

@@ -75,6 +75,10 @@
 ### Inciso
 Al comienzo del incremento tenía las HU 5, 7 y 13. Al final he acabado añadiendo las HU 8 y 9, ya que he personalmente he visto que eran más fáciles de implementar que la HU 5, la cuál intentarñe implementar en el siguiente incremento.
 
+# INCREMENTO 4
+## Captura inicial del trablero de Trello
+![image](https://user-images.githubusercontent.com/114186139/232547212-5ef3eab3-3cb6-496a-bfe2-7f31cbd8de53.png)
+
 
 # Capturas de Fauna
 * Home de Fauna

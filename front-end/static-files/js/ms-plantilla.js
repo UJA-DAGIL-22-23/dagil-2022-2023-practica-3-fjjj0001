@@ -601,17 +601,19 @@ Plantilla.plantillaTablaPersonas.cabecera = `<table width="100%" class="listado-
   <input type="text" id="busqueda" name="busqueda">
   <button onclick="Plantilla.buscar()">Buscar</button>
 </div>
+<div>
+    <h4>Haga click sobre los títulos para ordenar la tabla</h4> 
+</div>
 </br>
-
                     <thead>
-                    <th width="10%">Id</th>
-                    <th width="20%" id="columna-nombre">Nombre</th>
-                    <th width="20%">Apellidos</th>
-                    <th width="20%">Apodo</th>
-                    <th width="20%">Fecha de nacimiento</th>
-                    <th width="20%">Dorsal</th>
-                    <th width="20%">Posición</th>
-                    <th width="20%">Trayectoria</th>
+                    <th width="10%" id="table-id">Id</th>
+                    <th width="20%" id="table-nombre">Nombre</th>
+                    <th width="20%" id="table-apellidos">Apellidos</th>
+                    <th width="20%" id="table-apodo">Apodo</th>
+                    <th width="20%" id="table-fecha_nac">Fecha de nacimiento</th>
+                    <th width="20%" id="table-dorsal">Dorsal</th>
+                    <th width="20%" id="table-posicion">Posición</th>
+                    <th width="20%" id="table-trayectoria">Trayectoria</th>
                     <th width="20%">Opciones</th>
                     </thead>
                     <tbody>
@@ -692,6 +694,90 @@ Plantilla.imprimeJugadores = function (vector) {
 
     // Borro toda la info de Article y la sustituyo por la que me interesa
     Frontend.Article.actualizar("Listado de jugadores", msj)
+
+    // Añado listeners para que se ordenen las filas de la tabla al hacer click sobre el título de las columnas
+    document.getElementById("table-id").addEventListener("click", function () {
+        // Ordenar el vector de jugadores por id
+        vector.sort(function (a, b) {
+            return a.ref["@ref"].id.localeCompare(b.ref["@ref"].id);
+        });
+
+        // Actualizar la tabla con los datos ordenados
+        Plantilla.imprimeJugadores(vector);
+    });
+
+    document.getElementById("table-nombre").addEventListener("click", function () {
+        // Ordenar el vector de jugadores por nombre
+        vector.sort(function (a, b) {
+            return a.data.nombre.localeCompare(b.data.nombre);
+        });
+
+        // Actualizar la tabla con los datos ordenados
+        Plantilla.imprimeJugadores(vector);
+    });
+
+    document.getElementById("table-apellidos").addEventListener("click", function () {
+        // Ordenar el vector de jugadores por apellidos
+        vector.sort(function (a, b) {
+            return a.data.apellidos.localeCompare(b.data.apellidos);
+        });
+
+        // Actualizar la tabla con los datos ordenados
+        Plantilla.imprimeJugadores(vector);
+    });
+
+    document.getElementById("table-apodo").addEventListener("click", function () {
+        // Ordenar el vector de jugadores por apodo
+        vector.sort(function (a, b) {
+            return a.data.apodo.localeCompare(b.data.apodo);
+        });
+
+        // Actualizar la tabla con los datos ordenados
+        Plantilla.imprimeJugadores(vector);
+    });
+
+    document.getElementById("table-fecha_nac").addEventListener("click", function () {
+        // Ordenar el vector de jugadores por fecha de nacimiento
+        vector.sort(function (a, b) {
+            let fechaA = new Date(a.data.fecha_nacimiento.año, a.data.fecha_nacimiento.mes - 1, a.data.fecha_nacimiento.dia)
+            let fechaB = new Date(b.data.fecha_nacimiento.año, b.data.fecha_nacimiento.mes - 1, b.data.fecha_nacimiento.dia) 
+            return  fechaA - fechaB
+        });
+
+        // Actualizar la tabla con los datos ordenados
+        Plantilla.imprimeJugadores(vector);
+    });
+
+    document.getElementById("table-dorsal").addEventListener("click", function () {
+        // Ordenar el vector de jugadores por dorsal
+        vector.sort(function (a, b) {
+            return parseInt(a.data.dorsal) - parseInt(b.data.dorsal)
+        });
+
+        // Actualizar la tabla con los datos ordenados
+        Plantilla.imprimeJugadores(vector);
+    });
+
+    document.getElementById("table-posicion").addEventListener("click", function () {
+        // Ordenar el vector de jugadores por posición
+        vector.sort(function (a, b) {
+            return a.data.posicion.localeCompare(b.data.posicion);
+        });
+
+        // Actualizar la tabla con los datos ordenados
+        Plantilla.imprimeJugadores(vector);
+    });
+
+    document.getElementById("table-trayectoria").addEventListener("click", function () {
+        // Ordenar el vector de jugadores por tamaño del array de equipos jugados
+        vector.sort(function (a, b) {
+                return a.data.equipos_jugados.length - b.data.equipos_jugados.length
+            });
+
+        // Actualizar la tabla con los datos ordenados
+        Plantilla.imprimeJugadores(vector);
+    });
+
     return msj;
 }
 

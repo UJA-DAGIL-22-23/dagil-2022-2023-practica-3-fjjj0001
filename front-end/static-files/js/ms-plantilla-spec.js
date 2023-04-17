@@ -87,22 +87,22 @@ let vector_j = [{
         apellidos: "Gularte Filho",
         apodo: "Ferrao",
         fecha_nacimiento: {
-          dia: "29",
-          mes: "10",
-          año: "1990"
+            dia: "29",
+            mes: "10",
+            año: "1990"
         },
-        dorsal: "11",
+        dorsal: 11,
         posicion: "Pívot",
         equipos_jugados: [
-          "Palmitos",
-          "Joinville",
-          "Atlântico",
-          "Cortiana UCS",
-          "Norte Catarinense",
-          "MFK Tyunen",
-          "Barça"
+            "Palmitos",
+            "Joinville",
+            "Atlântico",
+            "Cortiana UCS",
+            "Norte Catarinense",
+            "MFK Tyunen",
+            "Barça"
         ]
-      }
+    }
 }
 ];
 
@@ -347,7 +347,7 @@ describe("Plantilla.imprimeJugadores: ", function () {
             expect(msj.includes(j.data.posicion)).toBeFalse()
             expect(msj.includes(j.data.equipos_jugados)).toBeFalse()
         })
-        it("se muestra el mensaje con los datos del jugador",
+    it("se muestra el mensaje con los datos del jugador",
         function () {
             let msj = Plantilla.imprimeJugadores(vector_j)
             expect(msj.includes(j.ref['@ref'].id)).toBeTrue()
@@ -420,13 +420,13 @@ describe("Plantilla.anterior: ", function () {
         function () {
             indices_prueba = Plantilla.anterior()
             expect(indices_prueba).toHaveSize(1)
-    })
+        })
 
     it("si no se pasa un objeto de tipo objet el array de indices tiene tamaño 1, indices = ['']",
         function () {
             indices_prueba = Plantilla.anterior(23)
             expect(indices_prueba).toHaveSize(1)
-    })
+        })
 
     // No puedo probar el caso en el que se pasa un array con datos normales porque document.getElementById("form-jugador-id").value 
     // es undefined ya que aún no ha cargado el formulario
@@ -438,13 +438,13 @@ describe("Plantilla.siguiente: ", function () {
         function () {
             indices_prueba = Plantilla.siguiente()
             expect(indices_prueba).toHaveSize(1)
-    })
+        })
 
     it("si no se pasa un objeto de tipo objet el array de indices tiene tamaño 1, indices = ['']",
         function () {
             indices_prueba = Plantilla.siguiente(23)
             expect(indices_prueba).toHaveSize(1)
-    })
+        })
 
     // No puedo probar el caso en el que se pasa un array con datos normales porque document.getElementById("form-jugador-id").value 
     // es undefined ya que aún no ha cargado el formulario
@@ -456,14 +456,119 @@ describe("Plantilla.filtraVector: ", function () {
         function () {
             vector_prueba = Plantilla.filtraVector()
             expect(vector_prueba).toHaveSize(0)
-    })
+        })
 
     it("si no se pasa una variable de tipo object el array que devuelve tiene tamaño 0",
         function () {
             vector_prueba = Plantilla.filtraVector(33)
             expect(vector_prueba).toHaveSize(0)
-    })
+        })
 
     // No puedo probar si se le pasa un array normal ya que document.getElementById("busqueda").value aún no está cargado
     // y por lo tanto su valor es undefined
+})
+
+describe("Plantilla.imprimeJugadores.ordenado: ", function () {
+    
+    it("se ordena correctamente por id",
+        function () {
+            
+            vector_j.sort(function (a, b) {
+                return a.ref["@ref"].id.localeCompare(b.ref["@ref"].id);
+            });
+
+            expect(vector_j[0].ref["@ref"].id).toBe(j.ref["@ref"].id)
+
+        })
+
+        it("se ordena correctamente por nombre",
+        function () {
+            
+            vector_j.sort(function (a, b) {
+                return a.data.nombre.localeCompare(b.data.nombre);
+            });
+
+            expect(vector_j[0].data.nombre).toBe("Carlos Vagner")
+
+        })
+
+        it("se ordena correctamente por apellidos",
+        function () {
+            
+            vector_j.sort(function (a, b) {
+                return a.data.apellidos.localeCompare(b.data.apellidos);
+            });
+
+            expect(vector_j[0].data.apellidos).toBe("Gularte Filho")
+
+        })
+
+        it("se ordena correctamente por apodo",
+        function () {
+            
+            vector_j.sort(function (a, b) {
+                return a.data.apodo.localeCompare(b.data.apodo);
+            });
+
+            expect(vector_j[0].data.apodo).toBe("El búfalo")
+
+        })
+
+        it("se ordena correctamente por fecha",
+        function () {
+            
+            vector_j.sort(function (a, b) {
+                let fechaA = new Date(a.data.fecha_nacimiento.año, a.data.fecha_nacimiento.mes - 1, a.data.fecha_nacimiento.dia)
+                let fechaB = new Date(b.data.fecha_nacimiento.año, b.data.fecha_nacimiento.mes - 1, b.data.fecha_nacimiento.dia) 
+                return  fechaA - fechaB
+            });
+
+            expect(vector_j[0].data.fecha_nacimiento.dia).toBe("9")
+            expect(vector_j[0].data.fecha_nacimiento.mes).toBe("11")
+            expect(vector_j[0].data.fecha_nacimiento.año).toBe("1988")
+
+        })
+
+        it("se ordena correctamente por dorsal",
+        function () {
+            
+            vector_j.sort(function (a, b) {
+                return parseInt(a.data.dorsal) - parseInt(b.data.dorsal)
+            });
+
+            expect(vector_j[0].data.dorsal).toBe(9)
+
+        })
+
+        it("se ordena correctamente por posición",
+        function () {
+            
+            vector_j.sort(function (a, b) {
+                return a.data.posicion.localeCompare(b.data.posicion);
+            });
+
+            expect(vector_j[0].data.posicion).toBe("Ala")
+
+        })
+
+        it("se ordena correctamente por tamaño del array de equipos jugados",
+        function () {
+            
+            vector_j.sort(function (a, b) {
+                return a.data.equipos_jugados.length - b.data.equipos_jugados.length
+            });
+
+            expect(vector_j[0].data.equipos_jugados).toEqual(j.data.equipos_jugados)
+
+        })
+
+/**
+ * EEEEEEEEEEEEEEEEEEEEEEEEEEE
+ * EEEEEEEEEEEEEEEEEEEEEEEEEEE
+ *  HACER TODOS LOS QUE FALTAN, DESDE EL ID HASTA EL VECTOR DE LOS EQUIPOS JUGADOS, LUEGO MIRA SI PUEDES SACAR LO DE AÑADIR Y BORRAR JUGADOR
+ * EEEEEEEEEEEEEEEEEEEEEEEEEEE
+ * EEEEEEEEEEEEEEEEEEEEEEEEEEE
+ */
+
+
 })

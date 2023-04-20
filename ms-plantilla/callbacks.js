@@ -168,7 +168,7 @@ const CB_MODEL_SELECTS = {
 
             CORS(res)
                 .status(200)
-                .json(jugador)
+                .json(jugador.data.data)
 
         } catch (error) {
             CORS(res).status(500).json({ error: error.description })

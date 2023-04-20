@@ -15,6 +15,7 @@ const TITULO_ACERCA_DE = "Plantilla Acerca de"
 const TITULO_LISTADO_NOMBRES = "Listado de nombre de los jugadores"
 const TITULO_LISTADO_JUGADORES = "Listado de jugadores"
 const TITULO_MOSTRAR = "Mostrar un jugador"
+const TITULO_AÑADIR = "Añade un jugador"
 
 const datosDescargadosPrueba = {
     mensaje: "Mensaje de prueba descargado",
@@ -303,16 +304,6 @@ describe("Plantilla.listadoDeNombresOrden: ", function () {
             expect(elementoTitulo.innerHTML).toBe(TITULO_LISTADO_NOMBRES)
             expect(elementoContenido.innerHTML.search(Plantilla.datosJugadoresNulos.nombre) == "").toBeTrue()
         })
-    it("muestra correctamente el nombre del jugador",
-        function () {
-            //let mensaje = Plantilla.listadoDeNombresOrden(vector_j)
-            expect(elementoTitulo.innerHTML).toBe(TITULO_LISTADO_NOMBRES)
-
-            // No he logrado conseguir que funcione este expect, no recibe correctamente el objeto de tipo data
-
-            // Comprobamos que al buscar el nombre lo encuentra en el article
-            //expect(mensaje.includes(j.data.nombre)).toBeTrue()
-        })
 })
 
 describe("Plantilla.imprimeJugadores: ", function () {
@@ -559,4 +550,19 @@ describe("Plantilla.imprimeJugadores.ordenado: ", function () {
         })
 
 
+})
+
+describe("Plantilla.mostrarFormAñadir: ", function () {
+    it("se muestra correctamente el formulario",
+        function () {
+            Plantilla.mostrarFormAñadir()
+            expect(elementoTitulo.innerHTML).toBe(TITULO_AÑADIR)
+            expect(elementoContenido.innerHTML.includes("Nombre")).toBeTrue()
+            expect(elementoContenido.innerHTML.includes("Apellidos")).toBeTrue()
+            expect(elementoContenido.innerHTML.includes("Apodo")).toBeTrue()
+            expect(elementoContenido.innerHTML.includes("Fecha de nacimiento")).toBeTrue()
+            expect(elementoContenido.innerHTML.includes("Dorsal")).toBeTrue()
+            expect(elementoContenido.innerHTML.includes("Posición")).toBeTrue()
+            expect(elementoContenido.innerHTML.includes("Trayectoria")).toBeTrue()
+        })
 })

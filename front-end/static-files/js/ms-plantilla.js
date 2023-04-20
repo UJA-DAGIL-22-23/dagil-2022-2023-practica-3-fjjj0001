@@ -83,7 +83,7 @@ Plantilla.plantillaTags = {
 /// Plantilla para poner los datos de un jugador en un tabla dentro de un formulario
 Plantilla.plantillaFormularioJugador = {}
 
-// Cabecera del formulario para mostrar los datos de un jugador
+// Formulario para mostrar los datos de un jugador
 Plantilla.plantillaFormularioJugador.formulario = `
 <form method='post' action=''>
     <table width="100%" class="listado-personas">
@@ -359,6 +359,107 @@ Plantilla.guardar = async function () {
         //console.error(error)
     }
 }
+
+// Plantilla para poner los datos de un nuevo jugador en un formulario vacio
+Plantilla.plantillaAddJugador = {}
+
+// Formulario vacio para añadir un jugador
+Plantilla.plantillaAddJugador.formulario = `
+<form method='post' action=''>
+    <table width="100%" class="listado-personas">
+        <thead>
+            <th width="20%">Nombre</th><th width="20%">Apellidos</th>
+            <th width="20%">Apodo</th><th width="20%">Fecha de nacimiento</th><th width="20%">Dorsal</th>
+            <th width="20%">Posición</th><th width="20%">Trayectoria</th><th width="20%">Opciones</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td><input type="text" class="form-persona-elemento editable" id="add-jugador-nombre" placeholder="Nombre"/></td>
+                <td><input type="text" class="form-persona-elemento editable" id="add-jugador-apellidos" placeholder="Apellidos"/></td>
+                <td><input type="text" class="form-persona-elemento editable" id="add-jugador-apodo" placeholder="Apodo"/></td>
+                <td><input type="number" class="form-persona-elemento editable" id="add-jugador-dia" placeholder="Día"/>-
+                    <input type="number" class="form-persona-elemento editable" id="add-jugador-mes" placeholder="Mes"/>-
+                    <input type="number" class="form-persona-elemento editable" id="add-jugador-anio" placeholder="Año"/></td>
+                <td><input type="number" class="form-persona-elemento editable" id="add-jugador-dorsal" placeholder="Dorsal"/></td>
+                <td><input type="text" class="form-persona-elemento editable" id="add-jugador-posicion" placeholder="Posición"/></td>
+                <td><textarea class="form-persona-elemento editable" id="add-jugador-trayectoria" placeholder="Equipos jugados"></textarea></td>
+                <td>
+                    <div><a href="javascript:Plantilla.añadir()" id="añadir-btn" class="opcion-secundaria mostrar">Guardar</a></div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>
+`;
+
+// Método para mostrar el formulario de añadir un jugador
+Plantilla.mostrarFormAñadir = function() {
+    Frontend.Article.actualizar("Añade un jugador", Plantilla.plantillaAddJugador.formulario)
+}
+
+// Método para añadir un jugador a la base de datos y muestra todos los jugadores
+Plantilla.añadir = function() {
+    if (document.getElementById("add-jugador-nombre").value === "" ||
+    document.getElementById("add-jugador-apellidos").value === "" ||
+    document.getElementById("add-jugador-apodo").value === "" ||
+    document.getElementById("add-jugador-dia").value === "" ||
+    document.getElementById("add-jugador-mes").value === "" ||
+    document.getElementById("add-jugador-anio").value === "" ||
+    document.getElementById("add-jugador-dorsal").value === "" ||
+    document.getElementById("add-jugador-posicion").value === "" ||
+    document.getElementById("add-jugador-trayectoria").value === "") alert("Por favor, completa todos los campos")
+    else {
+        Plantilla.añadeJugador()
+    }
+}
+
+// Método asíncrono que crea un jugador con los datos obtenidos del formulario y lo añade a la base de datos
+Plantilla.añadeJugador = async function() {
+    try{
+
+        let url = Frontend.API_GATEWAY + "/plantilla/add-jugador"
+
+        // Quitamos los espacios de la cadena de los equipos jugados para que tenga el mismo formato que el resto
+        let equipos = document.getElementById("add-jugador-trayectoria").value.split(',').map(function (equipo) {
+            return equipo.trim()
+        })
+
+        // Asignamos los valores del formulario a una variable jugador
+        let jugador = {
+            nombre: document.getElementById("add-jugador-nombre").value,
+            apellidos: document.getElementById("add-jugador-apellidos").value,
+            apodo: document.getElementById("add-jugador-apodo").value,
+            fecha_nacimiento: {
+                dia: document.getElementById("add-jugador-dia").value,
+                mes: document.getElementById("add-jugador-mes").value,
+                año: document.getElementById("add-jugador-anio").value,
+            },
+            dorsal: document.getElementById("add-jugador-dorsal").value,
+            posicion: document.getElementById("add-jugador-posicion").value,
+            equipos_jugados: equipos
+          };
+
+        const response = await fetch(url, {
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            mode: 'no-cors', // no-cors, cors, *same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'omit', // include, *same-origin, omit
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrer: 'no-referrer', // no-referrer, *client
+            body: JSON.stringify(jugador), // body data type must match "Content-Type" header
+        })
+
+        // Listamos todos los jugadores
+        Plantilla.listar()
+
+    } catch (error) {
+        alert("Error: No se han podido acceder al API Gateway " + error)
+    }
+}
+
 
 /**
  * Función que descarga la info MS Plantilla al llamar a una de sus rutas

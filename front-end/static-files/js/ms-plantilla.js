@@ -352,13 +352,7 @@ Plantilla.guardar = async function () {
                 "equipos_jugados_jugador": document.getElementById("form-jugador-trayectoria").value
             }), // body data type must match "Content-Type" header
         })
-        /*
-        Error: No procesa bien la respuesta devuelta
-        if (response) {
-            const persona = await response.json()
-            alert(persona)
-        }
-        */
+
         Plantilla.mostrar(id_jugador)
     } catch (error) {
         alert("Error: No se han podido acceder al API Gateway " + error)
@@ -572,7 +566,7 @@ Plantilla.filtraVector = function (vector) {
     // Comprueba que terminoBusqeda no sea undefined
     const terminoBusqueda = document.getElementById("busqueda");
     if (terminoBusqueda) {
-
+        console.log(terminoBusqueda.value)
         // Filtra todos los jugadores según el criterio de búsqueda se obtiene
         const terminoBusquedaValor = terminoBusqueda.value.trim().toLowerCase();
         const vectorFiltrado = vector.filter(jugador =>

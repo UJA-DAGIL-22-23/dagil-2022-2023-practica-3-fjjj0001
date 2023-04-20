@@ -137,9 +137,38 @@ const CB_MODEL_SELECTS = {
                     //console.log("Valor devuelto ", valorDevuelto)
                     CORS(res)
                         .status(200)
-                        .header( 'Content-Type', 'application/json' )
+                        .header('Content-Type', 'application/json')
                         .json(valorDevuelto)
                 })
+
+        } catch (error) {
+            CORS(res).status(500).json({ error: error.description })
+        }
+    },
+
+    /**
+    * Método para cambiar los datos de un jugador
+    * @param {*} req Objeto con los parámetros que se han pasado en la llamada a esta URL 
+    * @param {*} res Objeto Response con las respuesta que se va a dar a la petición recibida
+    */
+    addJugador: async (req, res) => {
+
+        try {
+            let data = (Object.values(req.body)[0] === '') ? JSON.parse(Object.keys(req.body)[0]) : req.body
+            let jugador = await client.query(
+                q.Create(
+                    q.Collection(COLLECTION),
+                    {
+                        data: data
+                    },
+                ),
+            )
+
+            //console.log(jugador)
+
+            CORS(res)
+                .status(200)
+                .json(jugador)
 
         } catch (error) {
             CORS(res).status(500).json({ error: error.description })

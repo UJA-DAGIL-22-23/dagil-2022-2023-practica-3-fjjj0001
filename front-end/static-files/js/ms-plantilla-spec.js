@@ -305,13 +305,13 @@ describe("Plantilla.listadoDeNombresOrden: ", function () {
         })
     it("muestra correctamente el nombre del jugador",
         function () {
-            let mensaje = Plantilla.listadoDeNombresOrden(jugador)
+            //let mensaje = Plantilla.listadoDeNombresOrden(vector_j)
             expect(elementoTitulo.innerHTML).toBe(TITULO_LISTADO_NOMBRES)
 
             // No he logrado conseguir que funcione este expect, no recibe correctamente el objeto de tipo data
 
             // Comprobamos que al buscar el nombre lo encuentra en el article
-            //expect(mensaje.includes(j.nombre)).toBeTrue()
+            //expect(mensaje.includes(j.data.nombre)).toBeTrue()
         })
 })
 
@@ -428,8 +428,6 @@ describe("Plantilla.anterior: ", function () {
             expect(indices_prueba).toHaveSize(1)
         })
 
-    // No puedo probar el caso en el que se pasa un array con datos normales porque document.getElementById("form-jugador-id").value 
-    // es undefined ya que aún no ha cargado el formulario
 })
 
 describe("Plantilla.siguiente: ", function () {
@@ -446,8 +444,6 @@ describe("Plantilla.siguiente: ", function () {
             expect(indices_prueba).toHaveSize(1)
         })
 
-    // No puedo probar el caso en el que se pasa un array con datos normales porque document.getElementById("form-jugador-id").value 
-    // es undefined ya que aún no ha cargado el formulario
 })
 
 describe("Plantilla.filtraVector: ", function () {
@@ -561,14 +557,6 @@ describe("Plantilla.imprimeJugadores.ordenado: ", function () {
             expect(vector_j[0].data.equipos_jugados).toEqual(j.data.equipos_jugados)
 
         })
-
-/**
- * EEEEEEEEEEEEEEEEEEEEEEEEEEE
- * EEEEEEEEEEEEEEEEEEEEEEEEEEE
- *  HACER TODOS LOS QUE FALTAN, DESDE EL ID HASTA EL VECTOR DE LOS EQUIPOS JUGADOS, LUEGO MIRA SI PUEDES SACAR LO DE AÑADIR Y BORRAR JUGADOR
- * EEEEEEEEEEEEEEEEEEEEEEEEEEE
- * EEEEEEEEEEEEEEEEEEEEEEEEEEE
- */
 
 
 })

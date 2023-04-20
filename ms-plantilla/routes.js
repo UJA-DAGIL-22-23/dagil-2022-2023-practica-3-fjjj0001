@@ -84,9 +84,9 @@ router.post("/set-cambios", async (req, res) => {
 /**
  * Añade un nuevo jugador a la base de datos
  */
-router.post("/add-jugador", async (res,res) => {
+router.post("/add-jugador", async (req,res) => {
     try{
-        await callbacks.addJugador(res, res)
+        await callbacks.addJugador(req, res)
     } catch (error) {
         console.log(error)
     }

@@ -92,5 +92,17 @@ router.post("/add-jugador", async (req,res) => {
     }
 });
 
+
+/**
+ * Elimina un jugador de la base de datos
+ */
+router.delete("delete-jugador/:idJugador", async (req,res) => {
+    try{
+        await callbacks.deleteJugador(req, res)
+    } catch (error){
+        console.log(error)
+    }
+});
+
 // Exporto el módulo para poder usarlo en server
 module.exports = router;

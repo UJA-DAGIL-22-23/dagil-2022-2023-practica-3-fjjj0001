@@ -147,7 +147,7 @@ const CB_MODEL_SELECTS = {
     },
 
     /**
-    * Método para cambiar los datos de un jugador
+    * Método para añadir un jugador a la base de datos
     * @param {*} req Objeto con los parámetros que se han pasado en la llamada a esta URL 
     * @param {*} res Objeto Response con las respuesta que se va a dar a la petición recibida
     */
@@ -168,8 +168,28 @@ const CB_MODEL_SELECTS = {
 
             CORS(res)
                 .status(200)
-                .json(jugador.data.data)
+                .json(jugador)
 
+        } catch (error) {
+            CORS(res).status(500).json({ error: error.description })
+        }
+    },
+
+    /**
+    * Método para eliminar un jugador a la base de datos
+    * @param {*} req Objeto con los parámetros que se han pasado en la llamada a esta URL 
+    * @param {*} res Objeto Response con las respuesta que se va a dar a la petición recibida
+    */
+    deleteJugador: async (req, res) => {
+        try {
+            //console.log( "deleteJugador req", req.params.idJugador ) // req.params contiene todos los parámetros de la llamada
+            let jugador = await client.query(
+                q.Delete(q.Ref(q.Collection(COLLECTION), req.params.idJugador))
+            )
+            //console.log(jugador) // Para comprobar qué se ha devuelto en jugador
+            CORS(res)
+                .status(200)
+                .json(jugador)
         } catch (error) {
             CORS(res).status(500).json({ error: error.description })
         }

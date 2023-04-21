@@ -39,7 +39,7 @@ describe('API Gateway: rutas estáticas', () => {
         })
         .end((error) => { error ? done.fail(error) : done() })
     });
-    it('Devuelve todos los jugadores de la base de datos y comprueba que el primero tenga de nombre Sergio', (done) => {
+    it('Devuelve todos los jugadores de la base de datos, comprueba que se ha devuelto un array', (done) => {
       supertest(app)
         .get('/plantilla/get-todos')
         .expect(200)
@@ -48,6 +48,7 @@ describe('API Gateway: rutas estáticas', () => {
           //console.log( "BODY ACERCA DE ", res.body ); // Para comprobar qué contiene exactamente res.body
           assert(Array.isArray(res.body.data));
           assert(res.body.data[0].data.hasOwnProperty('nombre'));
+          //console.log(res.body.data[0].data.nombre)
           assert(res.body.data[0].data.nombre === "Sergio");
 
         })
@@ -186,7 +187,26 @@ describe('API Gateway: rutas estáticas', () => {
         })
         .end((error) => { error ? done.fail(error) : done(); }
         );
+    });
 
+    it('Devuelve Marcos (Marcao) al borrar al jugador con id 362643639561617613 con deleteJugador', (done) => {
+      /**
+       * IMPORTANTE: Para probar este expect, probar con la ID de este jugador porque este ya no está en la BBDD ;)
+       */
+      supertest(app)
+        .delete('/plantilla/delete-jugador/362643639561617613')
+        .expect(200)
+        .expect('Content-Type', /json/)
+        .expect(function (res) {
+          //console.log( res.body ); // Para comprobar qué contiene exactamente res.body
+          assert(res.body.data.hasOwnProperty('nombre'));
+          assert(res.body.data.nombre === "Marcos");
+
+          assert(res.body.data.hasOwnProperty('apodo'));
+          assert(res.body.data.apodo === "Marcao");
+        })
+        .end((error) => { error ? done.fail(error) : done(); }
+        );
     });
   })
 });

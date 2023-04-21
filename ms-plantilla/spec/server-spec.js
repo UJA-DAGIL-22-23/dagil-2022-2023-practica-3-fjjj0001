@@ -212,7 +212,24 @@ describe('Servidor PLANTILLA:', () => {
         })
         .end((error) => { error ? done.fail(error) : done(); }
         );
+    });
 
+
+    it('Devuelve Lionel Andrés al borrar al jugador con id 362610021914116300 con deleteJugador', (done) => {
+      /**
+       * IMPORTANTE: Para probar este expect, probar con la ID de este jugador porque este ya no está en la BBDD ;)
+       */
+      supertest(app)
+        .delete('/delete-jugador/362610021914116300')
+        .expect(200)
+        .expect('Content-Type', /json/)
+        .expect(function (res) {
+          console.log( res.body ); // Para comprobar qué contiene exactamente res.body
+          assert(res.body.data.hasOwnProperty('nombre'));
+          assert(res.body.data.nombre === "Lionel Andrés");
+        })
+        .end((error) => { error ? done.fail(error) : done(); }
+        );
     });
   })
 });

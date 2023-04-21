@@ -127,6 +127,7 @@ Plantilla.plantillaFormularioJugador.formulario = `
                         id="form-jugador-trayectoria" name="equipos-jugados-jugador">${Plantilla.plantillaTags.EQUIPOS_JUGADOS}</p></td>
                 <td>
                     <div><a href="javascript:Plantilla.editar()" id="editar-btn" onclick="Plantilla.mostrarBotonesEdicion()" class="opcion-secundaria mostrar">Editar</a></div>
+                    <div><a href="javascript:Plantilla.borra('${Plantilla.plantillaTags.ID}')" id="borrar-btn" class="opcion-secundaria mostrar">Borrar</a></div>
                     <div><a href="javascript:Plantilla.guardar()" id="guardar-btn" class="opcion-terciaria editar ocultar">Guardar</a></div>
                     <div><a href="javascript:Plantilla.mostrar('${Plantilla.plantillaTags.ID}')" id="cancelar-btn" class="opcion-terciaria editar ocultar">Cancelar</a></div>
                 </td>
@@ -135,6 +136,30 @@ Plantilla.plantillaFormularioJugador.formulario = `
     </table>
 </form>
 `;
+
+// Función para borrar un jugador de la base de datos a partir de su id
+Plantilla.borra = function (idJugador) {
+    Plantilla.eliminaJugador(idJugador)
+}
+
+// Función que elimina un jugador a partir de su id
+Plantilla.eliminaJugador = async function(idJugador) {
+    console.log(idJugador)
+    try {
+        const url = Frontend.API_GATEWAY + "/plantilla/delete-jugador/" + idJugador
+        const response = await fetch(url, {
+            method: 'DELETE',
+            mode: 'no-cors'
+        })
+
+        Plantilla.listar()
+
+    } catch (error) {
+        alert("Error: No se han podido acceder al API Gateway")
+        console.error(error)
+    }
+}
+
 
 // Función que muestra el siguiente jugador de la base de datos
 Plantilla.siguienteJugador = function () {
@@ -218,9 +243,11 @@ Plantilla.mostrarBotonesEdicion = function () {
     document.getElementById("guardar-btn").classList.remove("ocultar");
     document.getElementById("cancelar-btn").classList.remove("ocultar");
     document.getElementById("editar-btn").classList.remove("mostrar");
+    document.getElementById("borrar-btn").classList.remove("mostrar");
     document.getElementById("guardar-btn").classList.add("mostrar");
     document.getElementById("cancelar-btn").classList.add("mostrar");
     document.getElementById("editar-btn").classList.add("ocultar");
+    document.getElementById("borrar-btn").classList.add("ocultar");
 
 }
 

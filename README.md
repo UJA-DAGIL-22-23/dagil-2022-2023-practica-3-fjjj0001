@@ -75,10 +75,28 @@
 ### Inciso
 Al comienzo del incremento tenía las HU 5, 7 y 13. Al final he acabado añadiendo las HU 8 y 9, ya que he personalmente he visto que eran más fáciles de implementar que la HU 5, la cuál intentarñe implementar en el siguiente incremento.
 
-# INCREMENTO 4
+# INCREMENTO 4 (FINAL)
 ## Captura inicial del trablero de Trello
 ![image](https://user-images.githubusercontent.com/114186139/232547212-5ef3eab3-3cb6-496a-bfe2-7f31cbd8de53.png)
 
+### 5. Ver un listado con todos los datos de todos los jugadores/equipos ordenado por el campo del jugador/equipo que el usuario desee.
+Cada columna de la tabla tiene asignado un ID y tiene asociado un evento al hacer click de modo que al hacer click sobre el título de una columna la tabla se ordenará por dicho campo. Aquí un ejemplo de parte del código:
+![image](https://user-images.githubusercontent.com/114186139/233830119-c2c76b0b-bb4f-433e-9c97-81a8a5cc7cb3.png)
+Ejemplo de ordenar por dorsal:
+![image](https://user-images.githubusercontent.com/114186139/233830159-9c7c36fa-2cd6-4572-bf69-fa2e74c124b1.png)
+Ejemplo de ordenar por fecha de nacimiento:
+![image](https://user-images.githubusercontent.com/114186139/233830176-fb9c76bc-4fba-4e4f-8d60-f6f69f520bc5.png)
+
+### 16. Añadir un nuevo jugador/equipo
+![image](https://user-images.githubusercontent.com/114186139/233830225-4c514dc5-6af9-4777-8f50-1f0eb18399ce.png)
+
+![image](https://user-images.githubusercontent.com/114186139/233830262-b0ad0361-a5d0-43b7-a73f-8dbf69ff94ab.png)
+
+### Inciso
+Con respecto a la HU 17 'Eliminar un jugador/equipo', a pesar de que está el código en el proyecto no he logrado que funcione debido a que el método asícrono , por lo tanto la funcionalidad NO ESTÁ IMPLEMENTADA y su tarjeta de Trello sigue en la columna 'IN PROGRESS'
+
+## Captura final del trablero de Trello
+![image](https://user-images.githubusercontent.com/114186139/233830398-78297283-46e8-45bd-9bef-7c65c3cc2899.png)
 
 # Capturas de Fauna
 * Home de Fauna
